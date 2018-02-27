@@ -10,28 +10,34 @@ import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.sl.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import com.microsoft.schemas.office.visio.x2012.main.CellType;
 
 public class SemesterRegistration {
 
-	public static XSSFRow row1;
+	public static XSSFRow row1MainSheet, row1EdittedData;
 	public static XSSFSheet mainSheet, edittedData;
-	public static String[] firstRow;
+	public static String[] firstRowMainSheet, firstRowEdittedData;
 	public static String[][] wholeSheet;
 
 	public static void main(String[] args) {
 
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
+		    workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 
-			performSetup(mainSheet);
-			int typeIndex = Arrays.asList(firstRow).indexOf("C_Type");
+			setupMainSheet(mainSheet);
+
+			setUpEdittedData(edittedData);
+
+			int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
 			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 				if (isACoOp(i, typeIndex)) {
 				}
@@ -49,13 +55,14 @@ public class SemesterRegistration {
 
 	}
 
-	public static void performSetup(XSSFSheet mainSheet) {
+	public static void setupMainSheet(XSSFSheet mainSheet) {
+
 		// get first row:
-		row1 = mainSheet.getRow(0);
-		firstRow = new String[47];// num of columns across
-		for (int i = 0; i < firstRow.length; i++) {
-			Cell cell = row1.getCell(i);
-			firstRow[i] = cell.getRichStringCellValue().getString();
+		row1MainSheet = mainSheet.getRow(0);
+		firstRowMainSheet = new String[47];// num of columns across
+		for (int i = 0; i < firstRowMainSheet.length; i++) {
+			Cell cell = row1MainSheet.getCell(i);
+			firstRowMainSheet[i] = cell.getRichStringCellValue().getString();
 		}
 		// works
 		// for(int i = 0; i < firstRow.length; i++){
@@ -96,14 +103,27 @@ public class SemesterRegistration {
 		// System.out.println(Arrays.deepToString(wholeSheet));
 	}
 
+	public static void setUpEdittedData(XSSFSheet edittedData) {
+
+		firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "COMPANY_ID", "ACTIVITY", "SALARY", "CITY", "STATE",
+				"COUNTRY", "REGID", "WORK_REG", "WORK_GRADE", "GRADING_REG", "GRADING_GRADE", "EMPLOYER_EVAL_DATE",
+				"EMPLOYER_EVAL", "EMPLOYER_AUTH", "STUDENT_EVAL_DATE", "STUDENT_EVAL", "STUDENT_EVAL_DATE" };
+
+		for(int i = 0; i < firstRowEdittedData.length; i++) {
+			
+			System.out.println(i);
+			//edittedData.getRow(1).getCell(i); //.setCellValue(firstRowEdittedData[i]);
+		}
+	}
+
 	public static boolean isACoOp(int row, int col) {
-		//works
-		//System.out.println(wholeSheet[row][col]);
+		// works
+		// System.out.println(wholeSheet[row][col]);
 		if (wholeSheet[row][col].equals("1.0")) {
-			//System.out.println("row " + row + " col " + col + " YES IS A CO OP");
+			// System.out.println("row " + row + " col " + col + " YES IS A CO OP");
 			return true;
 		}
-		//System.out.println("row " + row + " col " + col + " NO IS NOT A CO OP");
+		// System.out.println("row " + row + " col " + col + " NO IS NOT A CO OP");
 
 		return false;
 	}
