@@ -24,20 +24,35 @@ public class SemesterRegistration {
 			XSSFSheet mainSheet = workbook.getSheetAt(0);
 			XSSFSheet edittedData = workbook.createSheet("edittedData");
 			//do what needs to be done
-			int i = 0;
-			        for (Row row : mainSheet) {
+			//get first row:
+			Row row1 = mainSheet.getRow(0);
+			String [] firstRow = new String [47];
+			for (int i = 0; i < firstRow.length; i++){
+				Cell cell = row1.getCell(i);
+				firstRow[i] = cell.getRichStringCellValue().getString();
+			}
+			//works
+//			for(int i = 0; i < firstRow.length; i++){
+//				System.out.println(firstRow[i]);
+//			}
+			System.out.println("\n\n\n");
+			for (Row row : mainSheet) {
 			            for (Cell cell : row) {
+			            	System.out.println(cell.getCellTypeEnum().toString());
+			            	
 			            	switch (cell.getCellTypeEnum().toString()){
-			            	case ("String"):
+			            	case ("STRING"):
 			            		System.out.println(cell.getRichStringCellValue().getString());
-			            	case("NUMERIC")
+			            		break;
+			            	case("NUMERIC"):
+			            		System.out.println(cell.getNumericCellValue());
+			            		break;
+			            	case("BOOLEAN"):
+			            		System.out.println(cell.getBooleanCellValue());
+			            		break;
+			            	default:
+			            		System.out.println("THERE WAS A PROBLEM!!!!!");
 			            	}
-			            	if(cell.getCellTypeEnum().toString() == "STRING"){//janky
-				            	System.out.println(cell.getRichStringCellValue().getString());
-				            	System.out.println("Row " + row.getRowNum() + " Col: " + cell.getColumnIndex());
-			            	}
-
-			         
 			            
 			            }
 			        
