@@ -39,7 +39,13 @@ public class SemesterRegistration {
 
 			int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
 			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-				if (isACoOp(i, typeIndex)) {
+				if (isACoOp(i, typeIndex) || isAnInternship(i, typeIndex) || isResearch(i, typeIndex) ||isPartTimeWork(i, typeIndex)) {
+					//works
+					//System.out.println("Row " + i + "is yes");
+				}
+				else {
+
+				
 				}
 			}
 
@@ -130,6 +136,39 @@ public class SemesterRegistration {
 			return true;
 		}
 		// System.out.println("row " + row + " col " + col + " NO IS NOT A CO OP");
+
+		return false;
+	}
+	public static boolean isAnInternship(int row, int col) {
+		// works
+		// System.out.println(wholeSheet[row][col]);
+		if (wholeSheet[row][col].equals("2.0")) {
+			// System.out.println("row " + row + " col " + col + " YES IS AN INTERNSHIP");
+			return true;
+		}
+		// System.out.println("row " + row + " col " + col + " NO IS NOT AN INTERNSHIP");
+
+		return false;
+	}
+	public static boolean isResearch(int row, int col) {
+		// works
+		// System.out.println(wholeSheet[row][col]);
+		if (wholeSheet[row][col].equals("4.0")) {
+			// System.out.println("row " + row + " col " + col + " YES IS RESEARCH");
+			return true;
+		}
+		// System.out.println("row " + row + " col " + col + " NO IS NOT RESEARCH");
+
+		return false;
+	}
+	public static boolean isPartTimeWork(int row, int col) {
+		// works
+		// System.out.println(wholeSheet[row][col]);
+		if (wholeSheet[row][col].equals("7.0")) {
+			// System.out.println("row " + row + " col " + col + " YES IS PART TIME WORK");
+			return true;
+		}
+		// System.out.println("row " + row + " col " + col + " NO IS NOT PART TIME WORK");
 
 		return false;
 	}
