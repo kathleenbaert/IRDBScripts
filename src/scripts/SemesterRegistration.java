@@ -28,7 +28,7 @@ public class SemesterRegistration {
 
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
-		    workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+		    workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
@@ -110,10 +110,16 @@ public class SemesterRegistration {
 				"EMPLOYER_EVAL", "EMPLOYER_AUTH", "STUDENT_EVAL_DATE", "STUDENT_EVAL", "STUDENT_EVAL_DATE" };
 
 		for(int i = 0; i < firstRowEdittedData.length; i++) {
-			
-			System.out.println(i);
-			//edittedData.getRow(1).getCell(i); //.setCellValue(firstRowEdittedData[i]);
+            CellReference cr = new CellReference(0, i);
+			int r = cr.getRow();
+			int c = cr.getCol();
+			row1EdittedData = edittedData.getRow(r);
+			if (row1EdittedData == null)
+			    row1EdittedData = edittedData.createRow(r);
+			Cell cell = row1EdittedData.getCell(c);
+			cell.setCellValue(firstRowEdittedData[i]);		
 		}
+		
 	}
 
 	public static boolean isACoOp(int row, int col) {
