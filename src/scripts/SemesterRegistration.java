@@ -38,16 +38,42 @@ public class SemesterRegistration {
 			// int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
 			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 				if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
-					if(is3991(i, 14) || is3993(i, 14) || is4991(i, 14) || is4993(i, 14)) {
-						System.out.println(mainSheet.getRow(i).getCell(14).toString());
-						System.out.println(i +" is a work period");
-						
-						
+					if (is3991(i, 14)) {
+						int found = find3992(i, 14);
+						if(verifyMUID(i, 1, found, 1)) {
+							System.out.println("MUID correct");
+						}else {
+							System.out.println("MUID NOT correct");
+						}
 					}
-					
-					
-					
-				} 
+					if (is3993(i, 14)) {
+						int found = find3994(i, 14);
+						if(verifyMUID(i, 1, found, 1)) {
+							System.out.println("MUID correct");
+						}else {
+							System.out.println("MUID NOT correct");
+						}
+
+					}
+					if (is4991(i, 14)) {
+						int found = find4992(i, 14);
+						if(verifyMUID(i, 1, found, 1)) {
+							System.out.println("MUID correct");
+						}else {
+							System.out.println("MUID NOT correct");
+						}
+
+					}
+					if (is4993(i, 14)) {
+						int found = find4994(i, 14);
+						if(verifyMUID(i, 1, found, 1)) {
+							System.out.println("MUID correct");
+						}else {
+							System.out.println("MUID NOT correct");
+						}
+
+					}
+				}
 			}
 
 			// write out here
@@ -119,32 +145,94 @@ public class SemesterRegistration {
 
 		return false;
 	}
-	public static boolean is3991 (int row, int col) {
+
+	public static boolean is3991(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("3991.0")) {
 			return true;
 		}
 		return false;
 
 	}
+
 	public static boolean is3993(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("3993.0")) {
 			return true;
 		}
 		return false;
-		
+
 	}
+
 	public static boolean is4991(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("4991.0")) {
 			return true;
 		}
 		return false;
-		
+
 	}
+
 	public static boolean is4993(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("4993.0")) {
 			return true;
 		}
-		return false;	
+		return false;
 	}
+
+	public static int find3992(int row, int col) {
+		int i = row;
+		while (true) {
+			// start search from current row, go down the line
+			if (mainSheet.getRow(i).getCell(14).toString().equals("3992.0")) {
+				//System.out.println("found it in: " + i);
+				return i;
+			}
+			i++;
+		}
+	}
+	
+	 public static int find3994(int row, int col) {
+			int i = row;
+			while (true) {
+				// start search from current row, go down the line
+				if (mainSheet.getRow(i).getCell(14).toString().equals("3994.0")) {
+					//System.out.println("found it in: " + i);
+					return i;
+				}
+				i++;
+			}
+	 
+	 } public static int find4992(int row, int col) {
+			int i = row;
+			while (true) {
+				// start search from current row, go down the line
+				if (mainSheet.getRow(i).getCell(14).toString().equals("4992.0")) {
+					//System.out.println("found it in: " + i);
+					return i;
+				}
+				i++;
+			}
+	  
+	 } public static int find4994(int row, int col) {
+			int i = row;
+			while (true) {
+				// start search from current row, go down the line
+				if (mainSheet.getRow(i).getCell(14).toString().equals("4994.0")) {
+					//System.out.println("found it in: " + i);
+					return i;
+				}
+				i++;
+			}
+	  
+	 } 
+	  
+	 public static boolean verifyMUID(int row1, int col1, int row2, int col2) {
+		 //System.out.println(mainSheet.getRow(row1).getCell(col1));
+		 //System.out.println(mainSheet.getRow(row2).getCell(col2));
+		 if(mainSheet.getRow(row1).getCell(col1).toString().equals((mainSheet.getRow(row2).getCell(col2).toString()))){
+			 //System.out.println("yes accurate");
+			 return true;
+		 }
+		 return false;
+	 }
+	 
 
 }
