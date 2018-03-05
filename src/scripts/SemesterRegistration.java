@@ -38,9 +38,16 @@ public class SemesterRegistration {
 			// int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
 			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 				if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
-
-				} else {
-				}
+					if(is3991(i, 14) || is3993(i, 14) || is4991(i, 14) || is4993(i, 14)) {
+						System.out.println(mainSheet.getRow(i).getCell(14).toString());
+						System.out.println(i +" is a work period");
+						
+						
+					}
+					
+					
+					
+				} 
 			}
 
 			// write out here
@@ -111,6 +118,33 @@ public class SemesterRegistration {
 		}
 
 		return false;
+	}
+	public static boolean is3991 (int row, int col) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("3991.0")) {
+			return true;
+		}
+		return false;
+
+	}
+	public static boolean is3993(int row, int col) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("3993.0")) {
+			return true;
+		}
+		return false;
+		
+	}
+	public static boolean is4991(int row, int col) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("4991.0")) {
+			return true;
+		}
+		return false;
+		
+	}
+	public static boolean is4993(int row, int col) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("4993.0")) {
+			return true;
+		}
+		return false;	
 	}
 
 }
