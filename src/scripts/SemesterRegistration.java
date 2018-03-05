@@ -32,26 +32,14 @@ public class SemesterRegistration {
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 
-			//setupMainSheet(mainSheet);
+			// setupMainSheet(mainSheet);
 
 			setUpEdittedData(edittedData);
-			//int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
+			// int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
 			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-				if (isACoOp(i, 5	) || isAnInternship(i, 5) || isResearch(i, 5)
-						|| isPartTimeWork(i, 5)) {
-					System.out.println("works");
-
-
-					// works
-					// System.out.println("Row " + i + "is yes");
-					// find what registration class they need the pair for
-					// works
-					//int regIndex = Arrays.asList(firstRowMainSheet).indexOf("RegCode");
-					//String regNum = wholeSheet[i][regIndex];
-					//System.out.println(i + " " + regIndex + " " + regNum);
+				if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
 
 				} else {
-					System.out.println("not a coop");
 				}
 			}
 
@@ -67,39 +55,6 @@ public class SemesterRegistration {
 
 	}
 
-	public static void setupMainSheet(XSSFSheet mainSheet) {
-		/*
-		int i = 0, j = 0;
-		wholeSheet = new String[mainSheet.getPhysicalNumberOfRows()][47];
-
-		for (Row row : mainSheet) {
-			for (Cell cell : row) {
-		          int c = row.getCell(cell, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
-
-				switch (cell.getCellTypeEnum().toString()) {
-				case ("STRING"):
-					wholeSheet[i][j] = cell.getRichStringCellValue().getString();
-					j++;
-					break;
-				case ("NUMERIC"):
-					wholeSheet[i][j] = Double.toString(cell.getNumericCellValue());
-					j++;
-					break;
-				case ("BOOLEAN"):
-					wholeSheet[i][j] = Boolean.toString(cell.getBooleanCellValue());
-					j++;
-					break;
-				default:
-					wholeSheet[i][j] = "ABORT MISSION!!!";// should never get here
-					j++;
-				}
-
-			}
-			i++;
-			j = 0;
-		}
-		*/
-	}
 	public static void setUpEdittedData(XSSFSheet edittedData) {
 
 		firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "COMPANY_ID", "ACTIVITY", "SALARY", "CITY", "STATE",
@@ -121,54 +76,41 @@ public class SemesterRegistration {
 
 	public static boolean isACoOp(int row, int col) {
 		// works
-		// System.out.println(wholeSheet[row][col]);
-		if(mainSheet.getRow(row).getCell(col).toString().equals("1.0")) {
-			//System.out.println("row " + row + " col " + col + " YES IS A CO OP");
+		if (mainSheet.getRow(row).getCell(col).toString().equals("1.0")) {
+			// System.out.println("row " + row + " col " + col + " YES IS A CO OP");
 			return true;
-		}		
-		//System.out.println(mainSheet.getRow(row).getCell(col).toString());
-		//System.out.println("row " + row + " col " + col + " NO IS NOT A CO OP");
+		}
 
 		return false;
 	}
-	
 
 	public static boolean isAnInternship(int row, int col) {
 		// works
-		// System.out.println(wholeSheet[row][col]);
-		if(mainSheet.getRow(row).getCell(col).toString().equals("2.0")) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("2.0")) {
 			// System.out.println("row " + row + " col " + col + " YES IS AN INTERNSHIP");
 			return true;
 		}
-		// System.out.println("row " + row + " col " + col + " NO IS NOT AN
-		// INTERNSHIP");
 
 		return false;
 	}
 
 	public static boolean isResearch(int row, int col) {
 		// works
-		// System.out.println(wholeSheet[row][col]);
-		if(mainSheet.getRow(row).getCell(col).toString().equals("4.0")) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("4.0")) {
 			// System.out.println("row " + row + " col " + col + " YES IS RESEARCH");
 			return true;
 		}
-		// System.out.println("row " + row + " col " + col + " NO IS NOT RESEARCH");
-
 		return false;
 	}
 
 	public static boolean isPartTimeWork(int row, int col) {
 		// works
-		// System.out.println(wholeSheet[row][col]);
-		if(mainSheet.getRow(row).getCell(col).toString().equals("7.0")) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("7.0")) {
 			// System.out.println("row " + row + " col " + col + " YES IS PART TIME WORK");
 			return true;
 		}
-		// System.out.println("row " + row + " col " + col + " NO IS NOT PART TIME
-		// WORK");
 
 		return false;
 	}
-	
+
 }
