@@ -70,7 +70,7 @@ public class SemesterRegistration {
 				if (is3991(i, 14)) {
 					int found = find3992(i, 14);
 					if (verifyMUID(i, 1, found, 1)) {
-						// transferReg(i, , )
+						// transferReg(found);
 					} else {
 					}
 				}
@@ -266,20 +266,44 @@ public class SemesterRegistration {
 		// 10 work_reg
 		edittedData.getRow(edittedDataCurrRow).getCell(10)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
+
+		// find work grade
+		double temp = mainSheet.getRow(srow).getCell(14).getNumericCellValue();
+		int c = 16;
+
+		if (temp == 3991) {
+			c = 16;
+		}
+		if (temp == 3993) {
+			c = 17;
+		}
+		if (temp == 4991) {
+			c = 18;
+		}
+		if (temp == 4993) {
+			c = 19;
+		}
+		if (temp == 3992) {
+			c = 20;
+		}
+		if (temp == 3994) {
+			c = 21;
+		}
+		if (temp == 4992) {
+			c = 22;
+		}
+		if (temp == 4994) {
+			c = 23;
+		}
+		edittedData.getRow(edittedDataCurrRow).getCell(11).setCellValue(mainSheet.getRow(srow).getCell(c).toString());
+		edittedDataCurrRow++;
 	}
 
-	public static void transferReg(int srow, int scol) {
-		// DEALT WTIH IN THE TRANSFERS
-		// 11 work grade
-		// 12 grading reg
-		// 13 grading grade
-		// 14 employer eval date
-		// 15 employer eval
-		// 16 employer auth
-		// 17 student eval date
-		// 18 student eval
-		// 19 student auth
+	public static void transferReg(int srow) {
 
+		edittedData.getRow(edittedDataCurrRow).getCell(12)
+				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
+		edittedDataCurrRow++;
 	}
 
 	public static void transferGrade(int srow, int scol, int drow, int dcol) {
