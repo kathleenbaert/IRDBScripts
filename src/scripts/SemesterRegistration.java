@@ -4,77 +4,35 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-
 import org.apache.poi.hssf.util.CellReference;
-import org.apache.poi.sl.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
-import com.microsoft.schemas.office.visio.x2012.main.CellType;
 
 public class SemesterRegistration {
 
 	public static XSSFRow row1MainSheet, row1EdittedData;
 	public static XSSFSheet mainSheet, edittedData;
 	public static String[] firstRowMainSheet, firstRowEdittedData;
-
+	public static int edittedDataCurrRow;
 	public static void main(String[] args) {
 
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
-			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
-			workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
-
-			// setupMainSheet(mainSheet);
-
+			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
+			workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+			
 			setUpEdittedData(edittedData);
-			// int typeIndex = Arrays.asList(firstRowMainSheet).indexOf("C_Type");
-			for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-				if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
-					if (is3991(i, 14)) {
-						int found = find3992(i, 14);
-						if(verifyMUID(i, 1, found, 1)) {
-							System.out.println("MUID correct");
-						}else {
-							System.out.println("MUID NOT correct");
-						}
-					}
-					if (is3993(i, 14)) {
-						int found = find3994(i, 14);
-						if(verifyMUID(i, 1, found, 1)) {
-							System.out.println("MUID correct");
-						}else {
-							System.out.println("MUID NOT correct");
-						}
+			edittedDataCurrRow  =1;
+			mainLoop();
 
-					}
-					if (is4991(i, 14)) {
-						int found = find4992(i, 14);
-						if(verifyMUID(i, 1, found, 1)) {
-							System.out.println("MUID correct");
-						}else {
-							System.out.println("MUID NOT correct");
-						}
-
-					}
-					if (is4993(i, 14)) {
-						int found = find4994(i, 14);
-						if(verifyMUID(i, 1, found, 1)) {
-							System.out.println("MUID correct");
-						}else {
-							System.out.println("MUID NOT correct");
-						}
-
-					}
-				}
-			}
+			
+			
 
 			// write out here
 			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
@@ -105,6 +63,41 @@ public class SemesterRegistration {
 			cell.setCellValue(firstRowEdittedData[i]);
 		}
 
+	}
+	public static void mainLoop() {
+		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
+			if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
+				transferCoOpInfo(i);
+				if (is3991(i, 14)) {
+					int found = find3992(i, 14);
+					if(verifyMUID(i, 1, found, 1)) {
+						//transferReg(i, , )
+					}else {
+					}
+				}
+				if (is3993(i, 14)) {
+					int found = find3994(i, 14);
+					if(verifyMUID(i, 1, found, 1)) {
+					}else {
+					}
+
+				}
+				if (is4991(i, 14)) {
+					int found = find4992(i, 14);
+					if(verifyMUID(i, 1, found, 1)) {
+					}else {
+					}
+
+				}
+				if (is4993(i, 14)) {
+					int found = find4994(i, 14);
+					if(verifyMUID(i, 1, found, 1)) {
+					}else {
+					}
+
+				}
+			}
+		}
 	}
 
 	public static boolean isACoOp(int row, int col) {
@@ -232,6 +225,61 @@ public class SemesterRegistration {
 			 return true;
 		 }
 		 return false;
+	 }
+	 
+	 public static void transferCoOpInfo(int srow) {
+		 //0 id
+
+		 Row row = edittedData.getRow(edittedDataCurrRow);
+		 if(row == null) {
+			 row = edittedData.createRow(edittedDataCurrRow);
+		 }
+		 edittedData.getRow(edittedDataCurrRow).getCell(0).setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
+		 //1 MUID
+		 edittedData.getRow(edittedDataCurrRow).getCell(1).setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+		 //2 term
+		 edittedData.getRow(edittedDataCurrRow).getCell(2).setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
+		 //3 company id
+		 edittedData.getRow(edittedDataCurrRow).getCell(3).setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
+		 //4 activity
+		 edittedData.getRow(edittedDataCurrRow).getCell(4).setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
+		 //5 salary
+		 edittedData.getRow(edittedDataCurrRow).getCell(5).setCellValue(mainSheet.getRow(srow).getCell(6).getNumericCellValue());
+		 //6 city
+		 edittedData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
+		 //7 state
+		 edittedData.getRow(edittedDataCurrRow).getCell(7).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
+		 //8 country
+		 edittedData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
+		 //9 regid
+		 edittedData.getRow(edittedDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
+		 //10 work_reg
+		 edittedData.getRow(edittedDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
+		 //DEALT WTIH IN THE TRANSFERS
+		 //11 work grade
+		 //12 grading reg
+		 //13 grading grade
+		 //14 employer eval date
+		 //15 employer eval
+		 //16 employer auth
+		 //17 student eval date
+		 //18 student eval
+		 //19 student auth
+		 
+		 edittedDataCurrRow++;
+		 
+	 }
+	 public static void transferReg(int srow, int scol, int drow, int dcol) {
+		 
+		 
+		 
+		 
+	 }
+	 
+	 public static void transferGrade(int srow, int scol, int drow, int dcol) {
+
+		 
+		 edittedDataCurrRow++;
 	 }
 	 
 
