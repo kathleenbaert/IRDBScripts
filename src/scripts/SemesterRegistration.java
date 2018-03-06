@@ -18,6 +18,7 @@ public class SemesterRegistration {
 	public static XSSFSheet mainSheet, edittedData;
 	public static String[] firstRowMainSheet, firstRowEdittedData;
 	public static int edittedDataCurrRow;
+
 	public static void main(String[] args) {
 
 		try {
@@ -26,13 +27,10 @@ public class SemesterRegistration {
 			edittedData = workbook.createSheet("edittedData");
 			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
 			workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-			
-			setUpEdittedData(edittedData);
-			edittedDataCurrRow  =1;
-			mainLoop();
 
-			
-			
+			setUpEdittedData(edittedData);
+			edittedDataCurrRow = 1;
+			mainLoop();
 
 			// write out here
 			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
@@ -64,35 +62,36 @@ public class SemesterRegistration {
 		}
 
 	}
+
 	public static void mainLoop() {
 		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 			if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
 				transferCoOpInfo(i);
 				if (is3991(i, 14)) {
 					int found = find3992(i, 14);
-					if(verifyMUID(i, 1, found, 1)) {
-						//transferReg(i, , )
-					}else {
+					if (verifyMUID(i, 1, found, 1)) {
+						// transferReg(i, , )
+					} else {
 					}
 				}
 				if (is3993(i, 14)) {
 					int found = find3994(i, 14);
-					if(verifyMUID(i, 1, found, 1)) {
-					}else {
+					if (verifyMUID(i, 1, found, 1)) {
+					} else {
 					}
 
 				}
 				if (is4991(i, 14)) {
 					int found = find4992(i, 14);
-					if(verifyMUID(i, 1, found, 1)) {
-					}else {
+					if (verifyMUID(i, 1, found, 1)) {
+					} else {
 					}
 
 				}
 				if (is4993(i, 14)) {
 					int found = find4994(i, 14);
-					if(verifyMUID(i, 1, found, 1)) {
-					}else {
+					if (verifyMUID(i, 1, found, 1)) {
+					} else {
 					}
 
 				}
@@ -175,112 +174,117 @@ public class SemesterRegistration {
 		while (true) {
 			// start search from current row, go down the line
 			if (mainSheet.getRow(i).getCell(14).toString().equals("3992.0")) {
-				//System.out.println("found it in: " + i);
+				// System.out.println("found it in: " + i);
 				return i;
 			}
 			i++;
 		}
 	}
-	
-	 public static int find3994(int row, int col) {
-			int i = row;
-			while (true) {
-				// start search from current row, go down the line
-				if (mainSheet.getRow(i).getCell(14).toString().equals("3994.0")) {
-					//System.out.println("found it in: " + i);
-					return i;
-				}
-				i++;
-			}
-	 
-	 } public static int find4992(int row, int col) {
-			int i = row;
-			while (true) {
-				// start search from current row, go down the line
-				if (mainSheet.getRow(i).getCell(14).toString().equals("4992.0")) {
-					//System.out.println("found it in: " + i);
-					return i;
-				}
-				i++;
-			}
-	  
-	 } public static int find4994(int row, int col) {
-			int i = row;
-			while (true) {
-				// start search from current row, go down the line
-				if (mainSheet.getRow(i).getCell(14).toString().equals("4994.0")) {
-					//System.out.println("found it in: " + i);
-					return i;
-				}
-				i++;
-			}
-	  
-	 } 
-	  
-	 public static boolean verifyMUID(int row1, int col1, int row2, int col2) {
-		 //System.out.println(mainSheet.getRow(row1).getCell(col1));
-		 //System.out.println(mainSheet.getRow(row2).getCell(col2));
-		 if(mainSheet.getRow(row1).getCell(col1).toString().equals((mainSheet.getRow(row2).getCell(col2).toString()))){
-			 //System.out.println("yes accurate");
-			 return true;
-		 }
-		 return false;
-	 }
-	 
-	 public static void transferCoOpInfo(int srow) {
-		 //0 id
 
-		 Row row = edittedData.getRow(edittedDataCurrRow);
-		 if(row == null) {
-			 row = edittedData.createRow(edittedDataCurrRow);
-		 }
-		 edittedData.getRow(edittedDataCurrRow).getCell(0).setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
-		 //1 MUID
-		 edittedData.getRow(edittedDataCurrRow).getCell(1).setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
-		 //2 term
-		 edittedData.getRow(edittedDataCurrRow).getCell(2).setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
-		 //3 company id
-		 edittedData.getRow(edittedDataCurrRow).getCell(3).setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
-		 //4 activity
-		 edittedData.getRow(edittedDataCurrRow).getCell(4).setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
-		 //5 salary
-		 edittedData.getRow(edittedDataCurrRow).getCell(5).setCellValue(mainSheet.getRow(srow).getCell(6).getNumericCellValue());
-		 //6 city
-		 edittedData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
-		 //7 state
-		 edittedData.getRow(edittedDataCurrRow).getCell(7).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
-		 //8 country
-		 edittedData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
-		 //9 regid
-		 edittedData.getRow(edittedDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
-		 //10 work_reg
-		 edittedData.getRow(edittedDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
-		 //DEALT WTIH IN THE TRANSFERS
-		 //11 work grade
-		 //12 grading reg
-		 //13 grading grade
-		 //14 employer eval date
-		 //15 employer eval
-		 //16 employer auth
-		 //17 student eval date
-		 //18 student eval
-		 //19 student auth
-		 
-		 edittedDataCurrRow++;
-		 
-	 }
-	 public static void transferReg(int srow, int scol, int drow, int dcol) {
-		 
-		 
-		 
-		 
-	 }
-	 
-	 public static void transferGrade(int srow, int scol, int drow, int dcol) {
+	public static int find3994(int row, int col) {
+		int i = row;
+		while (true) {
+			// start search from current row, go down the line
+			if (mainSheet.getRow(i).getCell(14).toString().equals("3994.0")) {
+				// System.out.println("found it in: " + i);
+				return i;
+			}
+			i++;
+		}
 
-		 
-		 edittedDataCurrRow++;
-	 }
-	 
+	}
+
+	public static int find4992(int row, int col) {
+		int i = row;
+		while (true) {
+			// start search from current row, go down the line
+			if (mainSheet.getRow(i).getCell(14).toString().equals("4992.0")) {
+				// System.out.println("found it in: " + i);
+				return i;
+			}
+			i++;
+		}
+
+	}
+
+	public static int find4994(int row, int col) {
+		int i = row;
+		while (true) {
+			// start search from current row, go down the line
+			if (mainSheet.getRow(i).getCell(14).toString().equals("4994.0")) {
+				// System.out.println("found it in: " + i);
+				return i;
+			}
+			i++;
+		}
+
+	}
+
+	public static boolean verifyMUID(int row1, int col1, int row2, int col2) {
+		// System.out.println(mainSheet.getRow(row1).getCell(col1));
+		// System.out.println(mainSheet.getRow(row2).getCell(col2));
+		if (mainSheet.getRow(row1).getCell(col1).toString().equals((mainSheet.getRow(row2).getCell(col2).toString()))) {
+			// System.out.println("yes accurate");
+			return true;
+		}
+		return false;
+	}
+
+	public static void transferCoOpInfo(int srow) {
+		// 0 id
+
+		Row row = edittedData.getRow(edittedDataCurrRow);
+		if (row == null) {
+			row = edittedData.createRow(edittedDataCurrRow);
+		}
+		edittedData.getRow(edittedDataCurrRow).getCell(0)
+				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
+		// 1 MUID
+		edittedData.getRow(edittedDataCurrRow).getCell(1)
+				.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+		// 2 term
+		edittedData.getRow(edittedDataCurrRow).getCell(2)
+				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
+		// 3 company id
+		edittedData.getRow(edittedDataCurrRow).getCell(3)
+				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
+		// 4 activity
+		edittedData.getRow(edittedDataCurrRow).getCell(4)
+				.setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
+		// 5 salary
+		edittedData.getRow(edittedDataCurrRow).getCell(5)
+				.setCellValue(mainSheet.getRow(srow).getCell(6).getNumericCellValue());
+		// 6 city
+		edittedData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
+		// 7 state
+		edittedData.getRow(edittedDataCurrRow).getCell(7).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
+		// 8 country
+		edittedData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
+		// 9 regid
+		edittedData.getRow(edittedDataCurrRow).getCell(9)
+				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
+		// 10 work_reg
+		edittedData.getRow(edittedDataCurrRow).getCell(10)
+				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
+	}
+
+	public static void transferReg(int srow, int scol) {
+		// DEALT WTIH IN THE TRANSFERS
+		// 11 work grade
+		// 12 grading reg
+		// 13 grading grade
+		// 14 employer eval date
+		// 15 employer eval
+		// 16 employer auth
+		// 17 student eval date
+		// 18 student eval
+		// 19 student auth
+
+	}
+
+	public static void transferGrade(int srow, int scol, int drow, int dcol) {
+
+		edittedDataCurrRow++;
+	}
 
 }
