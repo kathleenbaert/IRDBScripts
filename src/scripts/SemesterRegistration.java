@@ -65,7 +65,7 @@ public class SemesterRegistration {
 
 	public static void mainLoop() {
 		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-			if (isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) {
+			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) && regIsOdd(i, 14)) {
 				transferCoOpInfo(i);
 				if (is3991(i, 14)) {
 					int found = find3992(i, 14);
@@ -138,6 +138,13 @@ public class SemesterRegistration {
 		return false;
 	}
 
+	public static boolean regIsOdd(int row, int col) {
+		if(mainSheet.getRow(row).getCell(col).getNumericCellValue()%2 == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public static boolean is3991(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("3991.0")) {
 			return true;
