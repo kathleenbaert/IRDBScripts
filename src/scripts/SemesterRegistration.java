@@ -123,10 +123,17 @@ public class SemesterRegistration {
 
 		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, edittedData);
-			convertEvalAuthInits();
-			convertEvalNoteItemID();
-			convertIRStudentActivityPlans();
+			r.IRKeytoCheckmarqKey(i, edittedData); //works
+			//for employer
+			r.convertEvalAuthInits(i, 16, edittedData);
+			//for student
+			r.convertEvalAuthInits(i, 19, edittedData);
+			//for employer
+			r.convertEvalNoteItemID(i, 15, edittedData);
+			//for students
+			r.convertEvalNoteItemID(i, 18, edittedData);
+			
+			r.convertIRStudentActivityPlans(i, edittedData);
 
 		}
 
@@ -388,18 +395,5 @@ public class SemesterRegistration {
 		edittedDataCurrRow++;
 	}
 
-	
-
-	public static void convertEvalAuthInits() {
-
-	}
-
-	public static void convertEvalNoteItemID() {
-
-	}
-
-	public static void convertIRStudentActivityPlans() {
-
-	}
 
 }
