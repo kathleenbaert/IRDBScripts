@@ -30,7 +30,8 @@ public class SemesterRegistration {
 
 			setUpEdittedData(edittedData);
 			edittedDataCurrRow = 1;
-			mainLoop();
+			transferLoop();
+			cleanUpLoop();
 
 			// write out here
 			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
@@ -63,7 +64,7 @@ public class SemesterRegistration {
 
 	}
 
-	public static void mainLoop() {
+	public static void transferLoop() {
 		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 			if (isFlex(i, 5)) {
 				flexCopy(i);
@@ -78,6 +79,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 20);
 						transferEvals(i);
 					} else {
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
 					}
 				}
 				if (is3993(i, 14)) {
@@ -87,6 +89,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 21);
 						transferEvals(i);
 					} else {
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
 					}
 
 				}
@@ -97,6 +100,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 22);
 						transferEvals(i);
 					} else {
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
 					}
 
 				}
@@ -107,11 +111,25 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 23);
 						transferEvals(i);
 					} else {
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
 					}
 
 				}
 			}
 		}
+	}
+
+	public static void cleanUpLoop() {
+
+		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
+			Replacements r = new Replacements();
+			r.IRKeytoCheckmarqKey(i, edittedData);
+			convertEvalAuthInits();
+			convertEvalNoteItemID();
+			convertIRStudentActivityPlans();
+
+		}
+
 	}
 
 	public static boolean isACoOp(int row, int col) {
@@ -369,4 +387,19 @@ public class SemesterRegistration {
 				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 		edittedDataCurrRow++;
 	}
+
+	
+
+	public static void convertEvalAuthInits() {
+
+	}
+
+	public static void convertEvalNoteItemID() {
+
+	}
+
+	public static void convertIRStudentActivityPlans() {
+
+	}
+
 }
