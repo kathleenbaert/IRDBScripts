@@ -48,7 +48,7 @@ public class SemesterRegistration {
 
 		firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "COMPANY_ID", "ACTIVITY", "SALARY", "CITY", "STATE",
 				"COUNTRY", "REGID", "WORK_REG", "WORK_GRADE", "GRADING_REG", "GRADING_GRADE", "EMPLOYER_EVAL_DATE",
-				"EMPLOYER_EVAL", "EMPLOYER_AUTH", "STUDENT_EVAL_DATE", "STUDENT_EVAL", "STUDENT_EVAL_DATE" };
+				"EMPLOYER_EVAL", "EMPLOYER_AUTH", "STUDENT_EVAL_DATE", "STUDENT_EVAL", "STUDENT_AUTH", "NOTES" };
 
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
 			CellReference cr = new CellReference(0, i);
@@ -65,18 +65,27 @@ public class SemesterRegistration {
 
 	public static void mainLoop() {
 		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5)) && regIsOdd(i, 14)) {
+			if (isFlex(i, 5)) {
+				flexCopy(i);
+			}
+			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5))
+					&& regIsOdd(i, 14)) {
 				transferCoOpInfo(i);
 				if (is3991(i, 14)) {
 					int found = find3992(i, 14);
 					if (verifyMUID(i, 1, found, 1)) {
-						// transferReg(found);
+						transferWorkGrade(i, 16);
+						transferGradingRegCredit(found, 20);
+						transferEvals(i);
 					} else {
 					}
 				}
 				if (is3993(i, 14)) {
 					int found = find3994(i, 14);
 					if (verifyMUID(i, 1, found, 1)) {
+						transferWorkGrade(i, 17);
+						transferGradingRegCredit(found, 21);
+						transferEvals(i);
 					} else {
 					}
 
@@ -84,6 +93,9 @@ public class SemesterRegistration {
 				if (is4991(i, 14)) {
 					int found = find4992(i, 14);
 					if (verifyMUID(i, 1, found, 1)) {
+						transferWorkGrade(i, 18);
+						transferGradingRegCredit(found, 22);
+						transferEvals(i);
 					} else {
 					}
 
@@ -91,6 +103,9 @@ public class SemesterRegistration {
 				if (is4993(i, 14)) {
 					int found = find4994(i, 14);
 					if (verifyMUID(i, 1, found, 1)) {
+						transferWorkGrade(i, 19);
+						transferGradingRegCredit(found, 23);
+						transferEvals(i);
 					} else {
 					}
 
@@ -138,13 +153,39 @@ public class SemesterRegistration {
 		return false;
 	}
 
+	public static boolean isFlex(int row, int col) {
+		if (mainSheet.getRow(row).getCell(col).toString().equals("5.0")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void flexCopy(int srow) {
+		Row row = edittedData.getRow(edittedDataCurrRow);
+		if (row == null) {
+			row = edittedData.createRow(edittedDataCurrRow);
+		}
+		edittedData.getRow(edittedDataCurrRow).getCell(0)
+				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
+		edittedData.getRow(edittedDataCurrRow).getCell(1)
+				.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+		edittedData.getRow(edittedDataCurrRow).getCell(2)
+				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
+		edittedData.getRow(edittedDataCurrRow).getCell(3)
+				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
+		edittedData.getRow(edittedDataCurrRow).getCell(4)
+				.setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
+
+		edittedDataCurrRow++;
+	}
+
 	public static boolean regIsOdd(int row, int col) {
-		if(mainSheet.getRow(row).getCell(col).getNumericCellValue()%2 == 0) {
+		if ((mainSheet.getRow(row).getCell(col).getNumericCellValue() % 2 == 0)) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	public static boolean is3991(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("3991.0")) {
 			return true;
@@ -274,48 +315,58 @@ public class SemesterRegistration {
 		edittedData.getRow(edittedDataCurrRow).getCell(10)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
 
-		// find work grade
-		double temp = mainSheet.getRow(srow).getCell(14).getNumericCellValue();
-		int c = 16;
-
-		if (temp == 3991) {
-			c = 16;
-		}
-		if (temp == 3993) {
-			c = 17;
-		}
-		if (temp == 4991) {
-			c = 18;
-		}
-		if (temp == 4993) {
-			c = 19;
-		}
-		if (temp == 3992) {
-			c = 20;
-		}
-		if (temp == 3994) {
-			c = 21;
-		}
-		if (temp == 4992) {
-			c = 22;
-		}
-		if (temp == 4994) {
-			c = 23;
-		}
-		edittedData.getRow(edittedDataCurrRow).getCell(11).setCellValue(mainSheet.getRow(srow).getCell(c).toString());
-		edittedDataCurrRow++;
 	}
 
-	public static void transferReg(int srow) {
+	public static void transferWorkGrade(int srow, int scol) {
+		// srow is current row in main sheet, scol is dependent on what credit you need
+		// to find
+		Row row = edittedData.getRow(edittedDataCurrRow);
+		if (row == null) {
+			row = edittedData.createRow(edittedDataCurrRow);
+		}
+		// WORK_GRADE
+		edittedData.getRow(edittedDataCurrRow).getCell(11)
+				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
+	}
 
+	public static void transferGradingRegCredit(int srow, int scol) {
+		// srow is current row in main sheet, scol is dependent on what credit you need
+		Row row = edittedData.getRow(edittedDataCurrRow);
+		if (row == null) {
+			row = edittedData.createRow(edittedDataCurrRow);
+		}
+		// GRADING_REG
 		edittedData.getRow(edittedDataCurrRow).getCell(12)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
-		edittedDataCurrRow++;
+		// GRADING_GRADE
+		edittedData.getRow(edittedDataCurrRow).getCell(13)
+				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
+
 	}
 
-	public static void transferGrade(int srow, int scol, int drow, int dcol) {
+	public static void transferEvals(int srow) {
 
+		// EMPLOYER_EVAL_DATE
+		edittedData.getRow(edittedDataCurrRow).getCell(14)
+				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());
+		// EMPLOYER_EVAL
+		edittedData.getRow(edittedDataCurrRow).getCell(15)
+				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+		// EMPLOYER_AUTH
+		edittedData.getRow(edittedDataCurrRow).getCell(16)
+				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());
+		// STUDENT_EVAL_DATE
+		edittedData.getRow(edittedDataCurrRow).getCell(17)
+				.setCellValue(mainSheet.getRow(srow).getCell(24).getDateCellValue());
+		// STUDENT_EVAL
+		edittedData.getRow(edittedDataCurrRow).getCell(18)
+				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+		// STUDENT_AUTH
+		edittedData.getRow(edittedDataCurrRow).getCell(19)
+				.setCellValue(mainSheet.getRow(srow).getCell(25).getStringCellValue());
+		// notes
+		edittedData.getRow(edittedDataCurrRow).getCell(20)
+				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 		edittedDataCurrRow++;
 	}
-
 }
