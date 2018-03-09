@@ -67,9 +67,10 @@ public class SemesterRegistration {
 	public static void transferLoop() {
 		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
 			if (isFlex(i, 5)) {
-				flexCopy(i);
+				//flexCopy(i);
 			}
-			//System.out.println(i);
+			// System.out.println(i);
+			// change to locate info for each MUID
 			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5))
 					&& regIsOdd(i, 14)) {
 				transferCoOpInfo(i);
@@ -80,7 +81,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 20);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
+						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 				}
 				if (is3993(i, 14)) {
@@ -90,7 +91,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 21);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
+						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -101,7 +102,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 22);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
+						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -112,7 +113,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 23);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
+						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -124,16 +125,16 @@ public class SemesterRegistration {
 
 		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, edittedData); //works
-			//for employer
+			r.IRKeytoCheckmarqKey(i, edittedData); // works
+			// for employer
 			r.convertEvalAuthInits(i, 16, edittedData);
-			//for student
+			// for student
 			r.convertEvalAuthInits(i, 19, edittedData);
-			//for employer
+			// for employer
 			r.convertEvalNoteItemID(i, 15, edittedData);
-			//for students
+			// for students
 			r.convertEvalNoteItemID(i, 18, edittedData);
-			
+
 			r.convertIRStudentActivityPlans(i, edittedData);
 
 		}
@@ -395,6 +396,5 @@ public class SemesterRegistration {
 				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 		edittedDataCurrRow++;
 	}
-
 
 }
