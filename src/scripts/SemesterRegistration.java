@@ -69,6 +69,7 @@ public class SemesterRegistration {
 			if (isFlex(i, 5)) {
 				flexCopy(i);
 			}
+			//System.out.println(i);
 			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5))
 					&& regIsOdd(i, 14)) {
 				transferCoOpInfo(i);
@@ -79,7 +80,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 20);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 				}
 				if (is3993(i, 14)) {
@@ -89,7 +90,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 21);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -100,7 +101,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 22);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -111,7 +112,7 @@ public class SemesterRegistration {
 						transferGradingRegCredit(found, 23);
 						transferEvals(i);
 					} else {
-						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getNumericCellValue());
+						System.out.println("Issue with ID Num" + mainSheet.getRow(i).getCell(1).getStringCellValue());
 					}
 
 				}
@@ -193,7 +194,7 @@ public class SemesterRegistration {
 		edittedData.getRow(edittedDataCurrRow).getCell(0)
 				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
 		edittedData.getRow(edittedDataCurrRow).getCell(1)
-				.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+				.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
 		edittedData.getRow(edittedDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
 		edittedData.getRow(edittedDataCurrRow).getCell(3)
@@ -314,7 +315,7 @@ public class SemesterRegistration {
 				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
 		// 1 MUID
 		edittedData.getRow(edittedDataCurrRow).getCell(1)
-				.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+				.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
 		// 2 term
 		edittedData.getRow(edittedDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
