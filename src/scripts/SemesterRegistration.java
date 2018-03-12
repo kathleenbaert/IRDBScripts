@@ -98,8 +98,8 @@ public class SemesterRegistration {
 					int found = find3994(j, 14, last);
 					if(found == 0)
 						break;
-					transferWorkGrade(j, 16);
-					transferGradingRegCredit(found, 20);
+					transferWorkGrade(j, 17);
+					transferGradingRegCredit(found, 21);
 					transferEvals(j);
 				}
 				if (is4991(j, 14)) {
@@ -107,8 +107,8 @@ public class SemesterRegistration {
 					int found = find4992(j, 14, last);
 					if(found == 0)
 						break;
-					transferWorkGrade(j, 16);
-					transferGradingRegCredit(found, 20);
+					transferWorkGrade(j, 18);
+					transferGradingRegCredit(found, 22);
 					transferEvals(j);
 				}
 				if (is4993(j, 14)) {
@@ -116,8 +116,8 @@ public class SemesterRegistration {
 					int found = find4994(j, 14, last);
 					if(found == 0)
 						break;
-					transferWorkGrade(j, 16);
-					transferGradingRegCredit(found, 20);
+					transferWorkGrade(j, 19);
+					transferGradingRegCredit(found, 23);
 					transferEvals(j);
 				}
 
