@@ -29,14 +29,24 @@ public class SemesterRegistration {
 			workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
 			setUpEdittedData(edittedData);
+			System.out.println("...set up editted data");
 			edittedDataCurrRow = 1;
 			transferLoop();
+			System.out.println("...transfer loop");
+
 			cleanUpLoop();
+
+			System.out.println("...clean up loop");
+			findDoubles();
+			System.out.println("...find doubles");
 
 			// write out here
 			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
 			workbook.write(fileOut);
 			fileOut.close();
+			System.out.println("____________________");
+			System.out.println("PROGRAM COMPLETE");
+			System.out.println("____________________");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -66,32 +76,51 @@ public class SemesterRegistration {
 
 	public static void transferLoop() {
 		// for (int i = 1; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-		int i =  1;
+		int i = 1;
 		while (i < mainSheet.getPhysicalNumberOfRows()) {
 			int last = endOfMUID(i);
-			System.out.println(i + "  " + last);
-			i = last + 1;
-//			 transferCoOpInfo(i);
-//			 if (is3991(i, 14)) {
-//			 int found = find3992(i, 14);
-//			 if (verifyMUID(i, 1, found, 1)) {
-//			 transferWorkGrade(i, 16);
-//			 transferGradingRegCredit(found, 20);
-//			 transferEvals(i);
-//			 } else {
-//			 System.out.println("IP CoOp " +
-//			 mainSheet.getRow(i).getCell(1).getStringCellValue());
-//			 }
-//			 }
+			// System.out.println(i + " " + last);
+			for (int j = i; j <= last; j++) {
+				// System.out.println(j);
+				if (is3991(j, 14)) {
+					transferCoOpInfo(j);
+					int found = find3992(j, 14);
+					transferWorkGrade(j, 16);
+					transferGradingRegCredit(found, 20);
+					transferEvals(j);
+				}
+				if (is3993(j, 14)) {
+					transferCoOpInfo(j);
+					int found = find3994(j, 14);
+					transferWorkGrade(j, 16);
+					transferGradingRegCredit(found, 20);
+					transferEvals(j);
+				}
+				if (is4991(j, 14)) {
+					transferCoOpInfo(j);
+					int found = find4992(j, 14);
+					transferWorkGrade(j, 16);
+					transferGradingRegCredit(found, 20);
+					transferEvals(j);
+				}
+				if (is4993(j, 14)) {
+					transferCoOpInfo(j);
+					int found = find4994(j, 14);
+					transferWorkGrade(j, 16);
+					transferGradingRegCredit(found, 20);
+					transferEvals(j);
+				}
 
+			}
+
+			i = last + 1;
 		}
 
 	}
 
 	public static int endOfMUID(int first) {
 		int last = first + 1;
-		if(!verifyMUID(first, 1, last, 1)) {//edge case, if only one entry for MUID
-			System.out.println("edge " + (first));
+		if (!verifyMUID(first, 1, last, 1)) {// edge case, if only one entry for MUID
 			return first;
 		}
 		while (verifyMUID(first, 1, last, 1)) {
@@ -118,6 +147,15 @@ public class SemesterRegistration {
 
 		}
 
+	}
+
+	public static void findDoubles() {
+		for (int i = 0; i < edittedData.getPhysicalNumberOfRows() - 1; i++) {
+			// 8 = registration ID
+			if (edittedData.getRow(i).getCell(9).toString() == edittedData.getRow(i + 1).getCell(9).toString()) {
+				System.out.println(i + " duplicates!");
+			}
+		}
 	}
 
 	public static boolean is3991(int row, int col) {
@@ -215,7 +253,6 @@ public class SemesterRegistration {
 
 	public static void transferCoOpInfo(int srow) {
 		// 0 id
-
 		Row row = edittedData.getRow(edittedDataCurrRow);
 		if (row == null) {
 			row = edittedData.createRow(edittedDataCurrRow);
@@ -223,8 +260,15 @@ public class SemesterRegistration {
 		edittedData.getRow(edittedDataCurrRow).getCell(0)
 				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
 		// 1 MUID
-		edittedData.getRow(edittedDataCurrRow).getCell(1)
-				.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
+		if (mainSheet.getRow(srow).getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+			edittedData.getRow(edittedDataCurrRow).getCell(1)
+					.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
+		}
+		if (mainSheet.getRow(srow).getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
+			edittedData.getRow(edittedDataCurrRow).getCell(1)
+					.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
+		}
+
 		// 2 term
 		edittedData.getRow(edittedDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
