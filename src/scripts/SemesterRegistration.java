@@ -65,60 +65,39 @@ public class SemesterRegistration {
 	}
 
 	public static void transferLoop() {
-		for (int i = 0; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-			if (isFlex(i, 5)) {
-				//flexCopy(i);
-			}
-			// System.out.println(i);
-			// change to locate info for each MUID
-			if ((isACoOp(i, 5) || isAnInternship(i, 5) || isResearch(i, 5) || isPartTimeWork(i, 5))
-					&& regIsOdd(i, 14)) {
-				transferCoOpInfo(i);
-				if (is3991(i, 14)) {
-					int found = find3992(i, 14);
-					if (verifyMUID(i, 1, found, 1)) {
-						transferWorkGrade(i, 16);
-						transferGradingRegCredit(found, 20);
-						transferEvals(i);
-					} else {
-						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
-					}
-				}
-				if (is3993(i, 14)) {
-					int found = find3994(i, 14);
-					if (verifyMUID(i, 1, found, 1)) {
-						transferWorkGrade(i, 17);
-						transferGradingRegCredit(found, 21);
-						transferEvals(i);
-					} else {
-						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
-					}
+		// for (int i = 1; i < mainSheet.getPhysicalNumberOfRows(); i++) {
+		int i =  1;
+		while (i < mainSheet.getPhysicalNumberOfRows()) {
+			int last = endOfMUID(i);
+			System.out.println(i + "  " + last);
+			i = last + 1;
+//			 transferCoOpInfo(i);
+//			 if (is3991(i, 14)) {
+//			 int found = find3992(i, 14);
+//			 if (verifyMUID(i, 1, found, 1)) {
+//			 transferWorkGrade(i, 16);
+//			 transferGradingRegCredit(found, 20);
+//			 transferEvals(i);
+//			 } else {
+//			 System.out.println("IP CoOp " +
+//			 mainSheet.getRow(i).getCell(1).getStringCellValue());
+//			 }
+//			 }
 
-				}
-				if (is4991(i, 14)) {
-					int found = find4992(i, 14);
-					if (verifyMUID(i, 1, found, 1)) {
-						transferWorkGrade(i, 18);
-						transferGradingRegCredit(found, 22);
-						transferEvals(i);
-					} else {
-						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
-					}
-
-				}
-				if (is4993(i, 14)) {
-					int found = find4994(i, 14);
-					if (verifyMUID(i, 1, found, 1)) {
-						transferWorkGrade(i, 19);
-						transferGradingRegCredit(found, 23);
-						transferEvals(i);
-					} else {
-						System.out.println("IP CoOp " + mainSheet.getRow(i).getCell(1).getStringCellValue());
-					}
-
-				}
-			}
 		}
+
+	}
+
+	public static int endOfMUID(int first) {
+		int last = first + 1;
+		if(!verifyMUID(first, 1, last, 1)) {//edge case, if only one entry for MUID
+			System.out.println("edge " + (first));
+			return first;
+		}
+		while (verifyMUID(first, 1, last, 1)) {
+			last++;
+		}
+		return last - 1;
 	}
 
 	public static void cleanUpLoop() {
@@ -139,78 +118,6 @@ public class SemesterRegistration {
 
 		}
 
-	}
-
-	public static boolean isACoOp(int row, int col) {
-		// works
-		if (mainSheet.getRow(row).getCell(col).toString().equals("1.0")) {
-			// System.out.println("row " + row + " col " + col + " YES IS A CO OP");
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isAnInternship(int row, int col) {
-		// works
-		if (mainSheet.getRow(row).getCell(col).toString().equals("2.0")) {
-			// System.out.println("row " + row + " col " + col + " YES IS AN INTERNSHIP");
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isResearch(int row, int col) {
-		// works
-		if (mainSheet.getRow(row).getCell(col).toString().equals("4.0")) {
-			// System.out.println("row " + row + " col " + col + " YES IS RESEARCH");
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isPartTimeWork(int row, int col) {
-		// works
-		if (mainSheet.getRow(row).getCell(col).toString().equals("7.0")) {
-			// System.out.println("row " + row + " col " + col + " YES IS PART TIME WORK");
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isFlex(int row, int col) {
-		if (mainSheet.getRow(row).getCell(col).toString().equals("5.0")) {
-			return true;
-		}
-		return false;
-	}
-
-	public static void flexCopy(int srow) {
-		Row row = edittedData.getRow(edittedDataCurrRow);
-		if (row == null) {
-			row = edittedData.createRow(edittedDataCurrRow);
-		}
-		edittedData.getRow(edittedDataCurrRow).getCell(0)
-				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
-		edittedData.getRow(edittedDataCurrRow).getCell(1)
-				.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
-		edittedData.getRow(edittedDataCurrRow).getCell(2)
-				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
-		edittedData.getRow(edittedDataCurrRow).getCell(3)
-				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
-		edittedData.getRow(edittedDataCurrRow).getCell(4)
-				.setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
-
-		edittedDataCurrRow++;
-	}
-
-	public static boolean regIsOdd(int row, int col) {
-		if ((mainSheet.getRow(row).getCell(col).getNumericCellValue() % 2 == 0)) {
-			return false;
-		}
-		return true;
 	}
 
 	public static boolean is3991(int row, int col) {
@@ -296,8 +203,9 @@ public class SemesterRegistration {
 	}
 
 	public static boolean verifyMUID(int row1, int col1, int row2, int col2) {
-		// System.out.println(mainSheet.getRow(row1).getCell(col1));
-		// System.out.println(mainSheet.getRow(row2).getCell(col2));
+		if (mainSheet.getRow(row2) == null) {// means end of sheet
+			return false;
+		}
 		if (mainSheet.getRow(row1).getCell(col1).toString().equals((mainSheet.getRow(row2).getCell(col2).toString()))) {
 			// System.out.println("yes accurate");
 			return true;
