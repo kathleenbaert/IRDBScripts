@@ -160,7 +160,8 @@ public class SemesterRegistration {
 	}
 
 	public static void findDoubles() {
-		for (int i = 0; i < edittedData.getPhysicalNumberOfRows() - 1; i++) {
+		int original = edittedData.getPhysicalNumberOfRows();
+		for (int i = 0; i < original - 1; i++) {
 			// 8 = registration ID
 			if (edittedData.getRow(i).getCell(9).toString().equals(edittedData.getRow(i + 1).getCell(9).toString())) {
 				//System.out.println(i + " duplicates!");
@@ -168,6 +169,7 @@ public class SemesterRegistration {
 				edittedData.removeRow(r);
 				i++;
 			}
+		System.out.println(i);
 		}
 	}
 
