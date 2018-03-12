@@ -87,8 +87,10 @@ public class SemesterRegistration {
 				if (is3991(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find3992(j, 14, last);
-					if(found == 0)
+					if(found == 0) {
+						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3992 found");
 						break;
+					}
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
@@ -96,8 +98,10 @@ public class SemesterRegistration {
 				if (is3993(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find3994(j, 14, last);
-					if(found == 0)
+					if(found == 0) {
+						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3994 found");
 						break;
+					}
 					transferWorkGrade(j, 17);
 					transferGradingRegCredit(found, 21);
 					transferEvals(j);
@@ -105,8 +109,10 @@ public class SemesterRegistration {
 				if (is4991(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find4992(j, 14, last);
-					if(found == 0)
+					if(found == 0) {
+						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4992 found");
 						break;
+					}
 					transferWorkGrade(j, 18);
 					transferGradingRegCredit(found, 22);
 					transferEvals(j);
@@ -114,8 +120,10 @@ public class SemesterRegistration {
 				if (is4993(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find4994(j, 14, last);
-					if(found == 0)
+					if(found == 0) {
+						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4994 found");
 						break;
+					}
 					transferWorkGrade(j, 19);
 					transferGradingRegCredit(found, 23);
 					transferEvals(j);
