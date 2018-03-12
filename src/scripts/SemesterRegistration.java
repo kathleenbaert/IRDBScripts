@@ -169,7 +169,6 @@ public class SemesterRegistration {
 				edittedData.removeRow(r);
 				i++;
 			}
-		System.out.println(i);
 		}
 	}
 

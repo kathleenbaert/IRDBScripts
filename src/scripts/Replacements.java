@@ -214,6 +214,8 @@ public class Replacements {
 		case "29.0":
 			edittedData.getRow(row).getCell(col).setCellValue("Dissatisfied");
 			break;
+		case "0.0":
+			edittedData.getRow(row).getCell(col).setCellType(Cell.CELL_TYPE_BLANK);
 		}
 
 	}
