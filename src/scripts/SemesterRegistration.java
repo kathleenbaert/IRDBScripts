@@ -44,9 +44,9 @@ public class SemesterRegistration {
 			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
 			workbook.write(fileOut);
 			fileOut.close();
-			System.out.println("____________________");
+			System.out.println("_________________");
 			System.out.println("PROGRAM COMPLETE");
-			System.out.println("____________________");
+			System.out.println("_________________");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -80,32 +80,42 @@ public class SemesterRegistration {
 		while (i < mainSheet.getPhysicalNumberOfRows()) {
 			int last = endOfMUID(i);
 			// System.out.println(i + " " + last);
+			// System.out.println(mainSheet.getRow(i).getCell(1).toString() +" "+
+			// mainSheet.getRow(i).getCell(1).toString());
 			for (int j = i; j <= last; j++) {
 				// System.out.println(j);
 				if (is3991(j, 14)) {
 					transferCoOpInfo(j);
-					int found = find3992(j, 14);
+					int found = find3992(j, 14, last);
+					if(found == 0)
+						break;
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
 				}
 				if (is3993(j, 14)) {
 					transferCoOpInfo(j);
-					int found = find3994(j, 14);
+					int found = find3994(j, 14, last);
+					if(found == 0)
+						break;
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
 				}
 				if (is4991(j, 14)) {
 					transferCoOpInfo(j);
-					int found = find4992(j, 14);
+					int found = find4992(j, 14, last);
+					if(found == 0)
+						break;
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
 				}
 				if (is4993(j, 14)) {
 					transferCoOpInfo(j);
-					int found = find4994(j, 14);
+					int found = find4994(j, 14, last);
+					if(found == 0)
+						break;
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
@@ -152,8 +162,11 @@ public class SemesterRegistration {
 	public static void findDoubles() {
 		for (int i = 0; i < edittedData.getPhysicalNumberOfRows() - 1; i++) {
 			// 8 = registration ID
-			if (edittedData.getRow(i).getCell(9).toString() == edittedData.getRow(i + 1).getCell(9).toString()) {
-				System.out.println(i + " duplicates!");
+			if (edittedData.getRow(i).getCell(9).toString().equals(edittedData.getRow(i + 1).getCell(9).toString())) {
+				//System.out.println(i + " duplicates!");
+				Row r = edittedData.getRow(i + 1);
+				edittedData.removeRow(r);
+				i++;
 			}
 		}
 	}
@@ -189,54 +202,58 @@ public class SemesterRegistration {
 		return false;
 	}
 
-	public static int find3992(int row, int col) {
-		int i = row;
-		while (true) {
+	public static int find3992(int row, int col, int last) {
+		// while (true) {
+		while (row <= last) {
 			// start search from current row, go down the line
-			if (mainSheet.getRow(i).getCell(14).toString().equals("3992.0")) {
+			if (mainSheet.getRow(row).getCell(14).toString().equals("3992.0")) {
 				// System.out.println("found it in: " + i);
-				return i;
+				return row;
 			}
-			i++;
+			row++;
 		}
+		return 0;
 	}
 
-	public static int find3994(int row, int col) {
+	public static int find3994(int row, int col, int last) {
 		int i = row;
-		while (true) {
+		while (row <= last) {
 			// start search from current row, go down the line
-			if (mainSheet.getRow(i).getCell(14).toString().equals("3994.0")) {
+			if (mainSheet.getRow(row).getCell(14).toString().equals("3994.0")) {
 				// System.out.println("found it in: " + i);
-				return i;
+				return row;
 			}
-			i++;
+			row++;
 		}
-
-	}
-
-	public static int find4992(int row, int col) {
-		int i = row;
-		while (true) {
-			// start search from current row, go down the line
-			if (mainSheet.getRow(i).getCell(14).toString().equals("4992.0")) {
-				// System.out.println("found it in: " + i);
-				return i;
-			}
-			i++;
-		}
+		return 0;
 
 	}
 
-	public static int find4994(int row, int col) {
+	public static int find4992(int row, int col, int last) {
 		int i = row;
-		while (true) {
+		while (row <= last) {
 			// start search from current row, go down the line
-			if (mainSheet.getRow(i).getCell(14).toString().equals("4994.0")) {
+			if (mainSheet.getRow(row).getCell(14).toString().equals("4992.0")) {
 				// System.out.println("found it in: " + i);
-				return i;
+				return row;
 			}
-			i++;
+			row++;
 		}
+		return 0;
+
+	}
+
+	public static int find4994(int row, int col, int last) {
+		int i = row;
+		while (row <= last) {
+			// start search from current row, go down the line
+			if (mainSheet.getRow(row).getCell(14).toString().equals("4994.0")) {
+				// System.out.println("found it in: " + i);
+				return row;
+			}
+			row++;
+		}
+		return 0;
 
 	}
 
@@ -268,7 +285,6 @@ public class SemesterRegistration {
 			edittedData.getRow(edittedDataCurrRow).getCell(1)
 					.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
 		}
-
 		// 2 term
 		edittedData.getRow(edittedDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
