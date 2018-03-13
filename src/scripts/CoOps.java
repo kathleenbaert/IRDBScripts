@@ -41,7 +41,7 @@ public class CoOps {
 			System.out.println("...find doubles");
 
 			// write out here
-			FileOutputStream fileOut = new FileOutputStream("DataOut.xlsx");
+			FileOutputStream fileOut = new FileOutputStream("CoOps.xlsx");
 			workbook.write(fileOut);
 			fileOut.close();
 			System.out.println("_________________");
@@ -161,7 +161,7 @@ public class CoOps {
 			// for students
 			r.convertEvalNoteItemID(i, 18, edittedData);
 
-			r.convertIRStudentActivityPlans(i, edittedData);
+			r.convertIRStudentActivityPlans(i, edittedData, 4);
 
 		}
 

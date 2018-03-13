@@ -220,29 +220,29 @@ public class Replacements {
 
 	}
 
-	public static void convertIRStudentActivityPlans(int row, XSSFSheet edittedData) {
-		String x = edittedData.getRow(row).getCell(4).toString();
+	public void convertIRStudentActivityPlans(int row, XSSFSheet edittedData, int col) {
+		String x = edittedData.getRow(row).getCell(col).toString();
 		switch (x) {
 		case "1.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Co-Op");
+			edittedData.getRow(row).getCell(col).setCellValue("Co-Op");
 			break;
 		case "2.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Internship");
+			edittedData.getRow(row).getCell(col).setCellValue("Internship");
 			break;
 		case "3.0":
-			edittedData.getRow(row).getCell(4).setCellValue("School");
+			edittedData.getRow(row).getCell(col).setCellValue("School");
 			break;
 		case "4.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Research");
+			edittedData.getRow(row).getCell(col).setCellValue("Research");
 			break;
 		case "5.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Flex");
+			edittedData.getRow(row).getCell(col).setCellValue("Flex");
 			break;
 		case "6.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Unconfirmed");
+			edittedData.getRow(row).getCell(col).setCellValue("Unconfirmed");
 			break;
 		case "7.0":
-			edittedData.getRow(row).getCell(4).setCellValue("Part-Time-Work");
+			edittedData.getRow(row).getCell(col).setCellValue("Part-Time-Work");
 			break;
 		}
 
