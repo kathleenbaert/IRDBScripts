@@ -152,7 +152,7 @@ public class CoOps {
 
 		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, 2, edittedData); // works
+			r.IRKeytoCheckmarqKey(i, 3, edittedData); // works
 			// for employer
 			r.convertEvalAuthInits(i, 19, edittedData);
 			// for student
@@ -162,7 +162,7 @@ public class CoOps {
 			// for students
 			r.convertEvalNoteItemID(i, 15, edittedData);
 
-			r.convertIRStudentActivityPlans(i, edittedData, 4);
+			r.convertIRStudentActivityPlans(i, edittedData, 3);
 
 		}
 

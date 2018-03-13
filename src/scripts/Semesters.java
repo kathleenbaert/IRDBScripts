@@ -90,7 +90,7 @@ public class Semesters {
 	public static void cleanUpLoop() {
 		for(int i = 0; i < edittedData.getPhysicalNumberOfRows(); i++) {
 		Replacements r = new Replacements();
-		r.IRKeytoCheckmarqKey(i, 2, edittedData); // works
+		r.IRKeytoCheckmarqKey(i, 3, edittedData); // works
 
 		r.convertIRStudentActivityPlans(i, edittedData, 3);
 
