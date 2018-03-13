@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class Replacements {
 
-	public static void IRKeytoCheckmarqKey(int row, XSSFSheet edittedData) {
+	public static void IRKeytoCheckmarqKey(int row, int col, XSSFSheet edittedData) {
 		String x = edittedData.getRow(row).getCell(2).toString();
 		switch (x) {
 		case "9.0":

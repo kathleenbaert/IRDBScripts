@@ -41,7 +41,7 @@ public class CoOps {
 			System.out.println("...find doubles");
 
 			// write out here
-			FileOutputStream fileOut = new FileOutputStream("CoOps.xlsx");
+			FileOutputStream fileOut = new FileOutputStream("IR_Student_Work.xlsx");
 			workbook.write(fileOut);
 			fileOut.close();
 			System.out.println("_________________");
@@ -57,9 +57,10 @@ public class CoOps {
 
 	public static void setUpEdittedData(XSSFSheet edittedData) {
 
-		firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "COMPANY_ID", "ACTIVITY", "SALARY", "CITY", "STATE",
-				"COUNTRY", "REGID", "WORK_REG", "WORK_GRADE", "GRADING_REG", "GRADING_GRADE", "EMPLOYER_EVAL_DATE",
-				"EMPLOYER_EVAL", "EMPLOYER_AUTH", "STUDENT_EVAL_DATE", "STUDENT_EVAL", "STUDENT_AUTH", "NOTES" };
+		firstRowEdittedData = new String[] { "ID_FK", "MUID_FK", "TERM_FK", "ACTIVITY", "CONTACTID_FK", "COMPANYID_FK",
+				"DATE_CREATED", "HOURLY_WAGE", "CITY", "STATE", "COUNTRY", "WORK_REG", "WORK_GRADE", "GRADING_REG",
+				"GRADING_GRADE", "STUDENT_EVAL", "STUDENT_EVAL_AUTH_FK", "STUDENT_EVAL_DATE", "EMPLOYER_EVAL",
+				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES" };
 
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
 			CellReference cr = new CellReference(0, i);
@@ -87,7 +88,7 @@ public class CoOps {
 				if (is3991(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find3992(j, 14, last);
-					if(found == 0) {
+					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3992 found");
 						break;
 					}
@@ -98,7 +99,7 @@ public class CoOps {
 				if (is3993(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find3994(j, 14, last);
-					if(found == 0) {
+					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3994 found");
 						break;
 					}
@@ -109,7 +110,7 @@ public class CoOps {
 				if (is4991(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find4992(j, 14, last);
-					if(found == 0) {
+					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4992 found");
 						break;
 					}
@@ -120,7 +121,7 @@ public class CoOps {
 				if (is4993(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find4994(j, 14, last);
-					if(found == 0) {
+					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4994 found");
 						break;
 					}
@@ -151,15 +152,15 @@ public class CoOps {
 
 		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, edittedData); // works
+			r.IRKeytoCheckmarqKey(i, 2, edittedData); // works
 			// for employer
-			r.convertEvalAuthInits(i, 16, edittedData);
-			// for student
 			r.convertEvalAuthInits(i, 19, edittedData);
+			// for student
+			r.convertEvalAuthInits(i, 16, edittedData);
 			// for employer
-			r.convertEvalNoteItemID(i, 15, edittedData);
-			// for students
 			r.convertEvalNoteItemID(i, 18, edittedData);
+			// for students
+			r.convertEvalNoteItemID(i, 15, edittedData);
 
 			r.convertIRStudentActivityPlans(i, edittedData, 4);
 
@@ -171,8 +172,8 @@ public class CoOps {
 		int original = edittedData.getPhysicalNumberOfRows();
 		for (int i = 0; i < original - 1; i++) {
 			// 8 = registration ID
-			if (edittedData.getRow(i).getCell(9).toString().equals(edittedData.getRow(i + 1).getCell(9).toString())) {
-				//System.out.println(i + " duplicates!");
+			if (edittedData.getRow(i).getCell(22).toString().equals(edittedData.getRow(i + 1).getCell(22).toString())) {
+				// System.out.println(i + " duplicates!");
 				Row r = edittedData.getRow(i + 1);
 				edittedData.removeRow(r);
 				i++;
@@ -278,11 +279,11 @@ public class CoOps {
 	}
 
 	public static void transferCoOpInfo(int srow) {
-		// 0 id
 		Row row = edittedData.getRow(edittedDataCurrRow);
 		if (row == null) {
 			row = edittedData.createRow(edittedDataCurrRow);
 		}
+		// 0 id
 		edittedData.getRow(edittedDataCurrRow).getCell(0)
 				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
 		// 1 MUID
@@ -297,28 +298,31 @@ public class CoOps {
 		// 2 term
 		edittedData.getRow(edittedDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
-		// 3 company id
+		// 3 activity
 		edittedData.getRow(edittedDataCurrRow).getCell(3)
-				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
-		// 4 activity
-		edittedData.getRow(edittedDataCurrRow).getCell(4)
 				.setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
-		// 5 salary
+		// 4 contact ID
+		edittedData.getRow(edittedDataCurrRow).getCell(4).setCellValue(" ");
+		// 5 company id
 		edittedData.getRow(edittedDataCurrRow).getCell(5)
+				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
+		// 6 date created
+		edittedData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(7).toString());
+		// 7 hourly wage
+		edittedData.getRow(edittedDataCurrRow).getCell(7)
 				.setCellValue(mainSheet.getRow(srow).getCell(6).getNumericCellValue());
-		// 6 city
-		edittedData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
-		// 7 state
-		edittedData.getRow(edittedDataCurrRow).getCell(7).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
-		// 8 country
-		edittedData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
-		// 9 regid
-		edittedData.getRow(edittedDataCurrRow).getCell(9)
-				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
-		// 10 work_reg
-		edittedData.getRow(edittedDataCurrRow).getCell(10)
+		// 8 city
+		edittedData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
+		// 9 state
+		edittedData.getRow(edittedDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
+		// 10 country
+		edittedData.getRow(edittedDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
+		// 11 work_reg
+		edittedData.getRow(edittedDataCurrRow).getCell(11)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
-
+		// 22 reg ID
+		edittedData.getRow(edittedDataCurrRow).getCell(22)
+				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
 	}
 
 	public static void transferWorkGrade(int srow, int scol) {
@@ -329,7 +333,7 @@ public class CoOps {
 			row = edittedData.createRow(edittedDataCurrRow);
 		}
 		// WORK_GRADE
-		edittedData.getRow(edittedDataCurrRow).getCell(11)
+		edittedData.getRow(edittedDataCurrRow).getCell(12)
 				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
 	}
 
@@ -340,36 +344,35 @@ public class CoOps {
 			row = edittedData.createRow(edittedDataCurrRow);
 		}
 		// GRADING_REG
-		edittedData.getRow(edittedDataCurrRow).getCell(12)
+		edittedData.getRow(edittedDataCurrRow).getCell(13)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
 		// GRADING_GRADE
-		edittedData.getRow(edittedDataCurrRow).getCell(13)
+		edittedData.getRow(edittedDataCurrRow).getCell(14)
 				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
 
 	}
 
 	public static void transferEvals(int srow) {
-
-		// EMPLOYER_EVAL_DATE
-		edittedData.getRow(edittedDataCurrRow).getCell(14)
-				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());
-		// EMPLOYER_EVAL
+		// STUDENT_EVAL
 		edittedData.getRow(edittedDataCurrRow).getCell(15)
 				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
-		// EMPLOYER_AUTH
+		// STUDENT_AUTH
 		edittedData.getRow(edittedDataCurrRow).getCell(16)
-				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());
+				.setCellValue(mainSheet.getRow(srow).getCell(25).getStringCellValue());
 		// STUDENT_EVAL_DATE
 		edittedData.getRow(edittedDataCurrRow).getCell(17)
 				.setCellValue(mainSheet.getRow(srow).getCell(24).getDateCellValue());
-		// STUDENT_EVAL
+		// EMPLOYER_EVAL
 		edittedData.getRow(edittedDataCurrRow).getCell(18)
-				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
-		// STUDENT_AUTH
+				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());		
+		// EMPLOYER_AUTH
 		edittedData.getRow(edittedDataCurrRow).getCell(19)
-				.setCellValue(mainSheet.getRow(srow).getCell(25).getStringCellValue());
-		// notes
+				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());			
+		// EMPLOYER_EVAL_DATE
 		edittedData.getRow(edittedDataCurrRow).getCell(20)
+				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());
+		// EVAL_NOTES
+		edittedData.getRow(edittedDataCurrRow).getCell(21)
 				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 		edittedDataCurrRow++;
 	}
