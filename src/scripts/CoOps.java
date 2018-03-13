@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 
-public class SemesterRegistration {
+public class CoOps {
 
 	public static XSSFRow row1MainSheet, row1EdittedData;
 	public static XSSFSheet mainSheet, edittedData;
