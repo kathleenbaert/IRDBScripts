@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class Semesters {
+public class IR_Student_Plan {
 	
 	public static XSSFSheet mainSheet, edittedData;
 	public static int edittedDataCurrRow;
