@@ -77,14 +77,21 @@ public class IR_Student_Work {
 
 	public static void transferLoop() {
 		// for (int i = 1; i < mainSheet.getPhysicalNumberOfRows(); i++) {
-		int i = 1;
+		int i = 1;// ignore header row 0
 		while (i < mainSheet.getPhysicalNumberOfRows()) {
 			int last = endOfMUID(i);
 			// System.out.println(i + " " + last);
 			// System.out.println(mainSheet.getRow(i).getCell(1).toString() +" "+
 			// mainSheet.getRow(i).getCell(1).toString());
 			for (int j = i; j <= last; j++) {
-				// System.out.println(j);
+				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j)) && noReg(j)) {
+					// works for locating what I need
+					// System.out.println(
+					// "worked " + " MUID: " + mainSheet.getRow(j).getCell(1).toString() + " " + " j
+					// " + j);
+					transferCoOpInfo(j);
+					edittedDataCurrRow++;
+				}
 				if (is3991(j, 14)) {
 					transferCoOpInfo(j);
 					int found = find3992(j, 14, last);
@@ -129,7 +136,6 @@ public class IR_Student_Work {
 					transferGradingRegCredit(found, 23);
 					transferEvals(j);
 				}
-
 			}
 
 			i = last + 1;
@@ -179,6 +185,41 @@ public class IR_Student_Work {
 				i++;
 			}
 		}
+	}
+
+	public static boolean isCoOp(int row) {
+		if (mainSheet.getRow(row).getCell(5).toString().equals("1.0")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isInternship(int row) {
+		if (mainSheet.getRow(row).getCell(5).toString().equals("2.0")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isResearch(int row) {
+		if (mainSheet.getRow(row).getCell(5).toString().equals("4.0")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isPartTime(int row) {
+		if (mainSheet.getRow(row).getCell(5).toString().equals("7.0")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean noReg(int j) {
+		if (mainSheet.getRow(j).getCell(14).toString().equals("")) {
+			return true;
+		}
+		return false;
 	}
 
 	public static boolean is3991(int row, int col) {
@@ -364,10 +405,10 @@ public class IR_Student_Work {
 				.setCellValue(mainSheet.getRow(srow).getCell(24).getDateCellValue());
 		// EMPLOYER_EVAL
 		edittedData.getRow(edittedDataCurrRow).getCell(18)
-				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());		
+				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
 		// EMPLOYER_AUTH
 		edittedData.getRow(edittedDataCurrRow).getCell(19)
-				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());			
+				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());
 		// EMPLOYER_EVAL_DATE
 		edittedData.getRow(edittedDataCurrRow).getCell(20)
 				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());

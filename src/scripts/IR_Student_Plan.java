@@ -21,7 +21,8 @@ public class IR_Student_Plan {
 	public static void main(String [] args) {
 
 		try {
-			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IR-Source.xlsx"));
+			//change
+			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(""));
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
@@ -36,7 +37,7 @@ public class IR_Student_Plan {
 			
 			System.out.println("...clean up loop complete");
 			// write out here
-			FileOutputStream fileOut = new FileOutputStream("Semesters.xlsx");
+			FileOutputStream fileOut = new FileOutputStream("IR_Student_Plan.xlsx");
 			workbook.write(fileOut);
 			fileOut.close();
 			System.out.println("_________________");
