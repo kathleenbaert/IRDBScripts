@@ -361,9 +361,6 @@ public class IR_Student_Work {
 		// 11 work_reg
 		edittedData.getRow(edittedDataCurrRow).getCell(11)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
-		// 22 reg ID
-		edittedData.getRow(edittedDataCurrRow).getCell(22)
-				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
 	}
 
 	public static void transferWorkGrade(int srow, int scol) {
