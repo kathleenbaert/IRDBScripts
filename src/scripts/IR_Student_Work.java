@@ -87,7 +87,7 @@ public class IR_Student_Work {
 			// "REG_ID",
 			row.getCell(0).setCellValue(mainSheet.getRow(i).getCell(NOTESREGID).getNumericCellValue());
 			// "STUDENT_EVAL",
-			//System.out.println(mainSheet.getRow(i).getCell(NOTEITEMID).getNumericCellValue());
+			// System.out.println(mainSheet.getRow(i).getCell(NOTEITEMID).getNumericCellValue());
 			if (mainSheet.getRow(i).getCell(NOTEITEMID).getNumericCellValue() == 28.0
 					|| mainSheet.getRow(i).getCell(NOTEITEMID).getNumericCellValue() == 29.0) {// means a student
 				row.getCell(1).setCellValue(mainSheet.getRow(i).getCell(NOTEITEMID).getNumericCellValue());
@@ -115,9 +115,7 @@ public class IR_Student_Work {
 
 			// "EVAL_NOTES"
 			row.getCell(7).setCellValue(mainSheet.getRow(i).getCell(NOTES).getStringCellValue());
-
 		}
-
 	}
 
 	public static void setUpEdittedData() {
@@ -508,9 +506,34 @@ public class IR_Student_Work {
 		edittedData.getRow(edittedDataCurrRow).getCell(21)
 				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 
+		// find the student eval
+		double mainReg = mainSheet.getRow(srow).getCell(NOTESREGID).getNumericCellValue();
+
+		if (mainReg != 0) {
+			for (int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
+				// System.out.println(mainReg +" " +
+				// evalPairs.getRow(i).getCell(0).getNumericCellValue());
+
+				if (mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
+					if (evalPairs.getRow(i).getCell(1).getCellType() != Cell.CELL_TYPE_BLANK) {
+						edittedData.getRow(edittedDataCurrRow).getCell(nSTUDENT_EVAL)
+								.setCellValue(evalPairs.getRow(i).getCell(1).getNumericCellValue());
+					}
+				}
+			}
+			// find the employer eval
+			for (int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
+				if (mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
+					if (evalPairs.getRow(i).getCell(4).getCellType() != Cell.CELL_TYPE_BLANK) {
+						edittedData.getRow(edittedDataCurrRow).getCell(nEMPLOYER_EVAL)
+								.setCellValue(evalPairs.getRow(i).getCell(4).getNumericCellValue());
+					}
+				}
+			}
+		}
+
 		// // EMPLOYER_EVAL
-		// edittedData.getRow(edittedDataCurrRow).getCell(18)
-		// .setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+		// edittedData.getRow(edittedDataCurrRow).getCell(18).setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
 		//
 		// // STUDENT_EVAL
 		// edittedData.getRow(edittedDataCurrRow).getCell(15)
