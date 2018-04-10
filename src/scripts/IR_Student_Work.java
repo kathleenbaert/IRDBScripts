@@ -18,6 +18,21 @@ public class IR_Student_Work {
 	public static XSSFSheet mainSheet, edittedData;
 	public static String[] firstRowMainSheet, firstRowEdittedData;
 	public static int edittedDataCurrRow;
+	public final int COOPID = 0, MUID = 1, TERM = 2, COMPANYID = 3, DIVISIONID = 4, ACTIVITY = 5, SALARY = 6,
+			SEMDATECREATED = 7, CITY = 8, STATE = 9, COUNTRY = 10, REGISTRATIONID = 11, SEMESTERID = 12, TOPICCODE = 13,
+			REGCODE = 14, GRADED = 15, GRADED3991 = 16, CREDIT3993 = 17, CREDIT4991 = 18, CREDIT4993 = 19,
+			CREDIT3992 = 20, CREDIT3994 = 21, CREDIT4992 = 22, CREDIT4994 = 23, STUDENTEVALDATE = 24,
+			STUDENTEVALAUTHINIT = 25, EMPLOYEREVALDATE = 26, EMPLOYEREVALAUTHINIT = 27, EVALNOTES = 28, INCOMPLETE = 29,
+			NOTREGISTERED = 30, SEMREGDATEMODIFIED = 31, SEMREGDATECREATED = 32, NOTEID = 33, STUDENTNAME = 34,
+			NOTESEMPLOYERID = 35, NOTESMUID = 36, NOTESREGID = 37, NOTEITEMID = 38, NOTES = 39, RESOLVEDDATE = 40,
+			FOLLOWUPDATE = 41, CREATEDDATE = 42, RESOLVEDAUTHININIT = 43, DELETE = 44, TICKETOPENDATE = 45,
+			DATENODIFIED = 46;
+
+	public final int nID_FK = 0, nMUID_FK = 1, nTERM_FK = 2, nACTIVITY = 3, nCONTACTID_FK = 4, nCOMPANYID_FK = 5,
+			nDATE_CREATED = 6, nHOURLY_WAGE = 7, nCITY = 8, nSTATE = 9, nCOUNTRY = 10, nWORK_REG = 11, nWORK_GRADE = 12,
+			nGRADING_REG = 13, nGRADING_GRADE = 14, nSTUDENT_EVAL = 15, nSTUDENT_EVAL_AUTH_FK = 16,
+			nSTUDENT_EVAL_DATE = 17, nEMPLOYER_EVAL = 18, nEMPLOYER_EVAL_AUTH_FK = 19, nEMPLOYER_EVAL_DATE = 20,
+			nEVAL_NOTES = 21, nREG_ID = 22;
 
 	public static void main(String[] args) {
 
@@ -102,7 +117,7 @@ public class IR_Student_Work {
 					}
 					transferWorkGrade(j, 16);
 					transferGradingRegCredit(found, 20);
-					transferEvals(j);
+					transferEvalSupplements(j);
 				}
 				if (is3993(j, 14)) {
 					transferCoOpInfo(j);
@@ -113,7 +128,7 @@ public class IR_Student_Work {
 					}
 					transferWorkGrade(j, 17);
 					transferGradingRegCredit(found, 21);
-					transferEvals(j);
+					transferEvalSupplements(j);
 				}
 				if (is4991(j, 14)) {
 					transferCoOpInfo(j);
@@ -124,7 +139,7 @@ public class IR_Student_Work {
 					}
 					transferWorkGrade(j, 18);
 					transferGradingRegCredit(found, 22);
-					transferEvals(j);
+					transferEvalSupplements(j);
 				}
 				if (is4993(j, 14)) {
 					transferCoOpInfo(j);
@@ -135,7 +150,7 @@ public class IR_Student_Work {
 					}
 					transferWorkGrade(j, 19);
 					transferGradingRegCredit(found, 23);
-					transferEvals(j);
+					transferEvalSupplements(j);
 				}
 			}
 			i = last + 1;
@@ -164,9 +179,9 @@ public class IR_Student_Work {
 			// for student
 			r.convertEvalAuthInits(i, 16, edittedData);
 			// for employer
-			r.convertEvalNoteItemID(i, 18, edittedData);
+			// r.convertEvalNoteItemID(i, 18, edittedData);
 			// for students
-			r.convertEvalNoteItemID(i, 15, edittedData);
+			// r.convertEvalNoteItemID(i, 15, edittedData);
 
 			r.convertIRStudentActivityPlans(i, edittedData, 3);
 
@@ -226,7 +241,7 @@ public class IR_Student_Work {
 
 			) {
 
-				//System.out.println(i + " duplicates!");
+				// System.out.println(i + " duplicates!");
 				Row r = edittedData.getRow(i + 1);
 				edittedData.removeRow(r);
 				i++;
@@ -440,19 +455,13 @@ public class IR_Student_Work {
 
 	}
 
-	public static void transferEvals(int srow) {
-		// STUDENT_EVAL
-		edittedData.getRow(edittedDataCurrRow).getCell(15)
-				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+	public static void transferEvalSupplements(int srow) {
 		// STUDENT_AUTH
 		edittedData.getRow(edittedDataCurrRow).getCell(16)
 				.setCellValue(mainSheet.getRow(srow).getCell(25).getStringCellValue());
 		// STUDENT_EVAL_DATE
 		edittedData.getRow(edittedDataCurrRow).getCell(17)
 				.setCellValue(mainSheet.getRow(srow).getCell(24).getDateCellValue());
-		// EMPLOYER_EVAL
-		edittedData.getRow(edittedDataCurrRow).getCell(18)
-				.setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
 		// EMPLOYER_AUTH
 		edittedData.getRow(edittedDataCurrRow).getCell(19)
 				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());
@@ -462,7 +471,20 @@ public class IR_Student_Work {
 		// EVAL_NOTES
 		edittedData.getRow(edittedDataCurrRow).getCell(21)
 				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
+
+		// // EMPLOYER_EVAL
+		// edittedData.getRow(edittedDataCurrRow).getCell(18)
+		// .setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+		//
+		// // STUDENT_EVAL
+		// edittedData.getRow(edittedDataCurrRow).getCell(15)
+		// .setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+
 		edittedDataCurrRow++;
+
+	}
+
+	public static void transferEvals() {
 
 	}
 
