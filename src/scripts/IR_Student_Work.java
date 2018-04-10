@@ -15,10 +15,10 @@ import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 public class IR_Student_Work {
 
 	public static XSSFRow row1MainSheet, row1EdittedData;
-	public static XSSFSheet mainSheet, edittedData;
+	public static XSSFSheet mainSheet, edittedData, evalPairs;
 	public static String[] firstRowMainSheet, firstRowEdittedData;
 	public static int edittedDataCurrRow;
-	public final int COOPID = 0, MUID = 1, TERM = 2, COMPANYID = 3, DIVISIONID = 4, ACTIVITY = 5, SALARY = 6,
+	public final static int COOPID = 0, MUID = 1, TERM = 2, COMPANYID = 3, DIVISIONID = 4, ACTIVITY = 5, SALARY = 6,
 			SEMDATECREATED = 7, CITY = 8, STATE = 9, COUNTRY = 10, REGISTRATIONID = 11, SEMESTERID = 12, TOPICCODE = 13,
 			REGCODE = 14, GRADED = 15, GRADED3991 = 16, CREDIT3993 = 17, CREDIT4991 = 18, CREDIT4993 = 19,
 			CREDIT3992 = 20, CREDIT3994 = 21, CREDIT4992 = 22, CREDIT4994 = 23, STUDENTEVALDATE = 24,
@@ -28,7 +28,7 @@ public class IR_Student_Work {
 			FOLLOWUPDATE = 41, CREATEDDATE = 42, RESOLVEDAUTHININIT = 43, DELETE = 44, TICKETOPENDATE = 45,
 			DATENODIFIED = 46;
 
-	public final int nID_FK = 0, nMUID_FK = 1, nTERM_FK = 2, nACTIVITY = 3, nCONTACTID_FK = 4, nCOMPANYID_FK = 5,
+	public final static int nID_FK = 0, nMUID_FK = 1, nTERM_FK = 2, nACTIVITY = 3, nCONTACTID_FK = 4, nCOMPANYID_FK = 5,
 			nDATE_CREATED = 6, nHOURLY_WAGE = 7, nCITY = 8, nSTATE = 9, nCOUNTRY = 10, nWORK_REG = 11, nWORK_GRADE = 12,
 			nGRADING_REG = 13, nGRADING_GRADE = 14, nSTUDENT_EVAL = 15, nSTUDENT_EVAL_AUTH_FK = 16,
 			nSTUDENT_EVAL_DATE = 17, nEMPLOYER_EVAL = 18, nEMPLOYER_EVAL_AUTH_FK = 19, nEMPLOYER_EVAL_DATE = 20,
@@ -40,17 +40,18 @@ public class IR_Student_Work {
 			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
+			evalPairs = workbook.createSheet("evalPairs");
 			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
 			workbook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-			setUpEdittedData(edittedData);
+			createEvalPairs();
+			System.out.println("...created eval pairs");
+			setUpEdittedData();
 			System.out.println("...set up editted data");
 			edittedDataCurrRow = 1;
 			transferLoop();
 			System.out.println("...transfer loop");
-
 			cleanUpLoop();
-
 			System.out.println("...clean up loop");
 			findDoubles();
 			System.out.println("...find doubles");
@@ -69,23 +70,30 @@ public class IR_Student_Work {
 		}
 
 	}
+	
+	public static void createEvalPairs() {
+		String [] firstRowEvalPairs = new String[] {"STUDENT_EVAL", "STUDENT_EVAL_AUTH_FK", "STUDENT_EVAL_DATE", "EMPLOYER_EVAL",
+				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES", "REG_ID"};
 
-	public static void setUpEdittedData(XSSFSheet edittedData) {
+		Row row = evalPairs.createRow(edittedDataCurrRow);
+		
+		for (int i = 0; i < firstRowEvalPairs.length; i++) {
+			row.getCell(i).setCellValue(firstRowEvalPairs[i]);
+
+		}
+
+	}
+
+	public static void setUpEdittedData() {
 
 		firstRowEdittedData = new String[] { "ID_FK", "MUID_FK", "TERM_FK", "ACTIVITY", "CONTACTID_FK", "COMPANYID_FK",
 				"DATE_CREATED", "HOURLY_WAGE", "CITY", "STATE", "COUNTRY", "WORK_REG", "WORK_GRADE", "GRADING_REG",
 				"GRADING_GRADE", "STUDENT_EVAL", "STUDENT_EVAL_AUTH_FK", "STUDENT_EVAL_DATE", "EMPLOYER_EVAL",
 				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES", "REG_ID" };
+		Row row = edittedData.createRow(0);
 
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
-			CellReference cr = new CellReference(0, i);
-			int r = cr.getRow();
-			int c = cr.getCol();
-			row1EdittedData = edittedData.getRow(r);
-			if (row1EdittedData == null)
-				row1EdittedData = edittedData.createRow(r);
-			Cell cell = row1EdittedData.getCell(c);
-			cell.setCellValue(firstRowEdittedData[i]);
+			row.getCell(i).setCellValue(firstRowEdittedData[i]);
 		}
 
 	}
@@ -173,17 +181,17 @@ public class IR_Student_Work {
 
 		for (int i = 1; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, 3, edittedData); // works
+			r.IRKeytoCheckmarqKey(i, nACTIVITY, edittedData); // works
 			// for employer
-			r.convertEvalAuthInits(i, 19, edittedData);
+			r.convertEvalAuthInits(i, nEMPLOYER_EVAL_AUTH_FK, edittedData);
 			// for student
-			r.convertEvalAuthInits(i, 16, edittedData);
+			r.convertEvalAuthInits(i, nSTUDENT_EVAL_AUTH_FK, edittedData);
 			// for employer
-			// r.convertEvalNoteItemID(i, 18, edittedData);
-			// for students
-			// r.convertEvalNoteItemID(i, 15, edittedData);
+			 r.convertEvalNoteItemID(i, nEMPLOYER_EVAL, edittedData);
+			 //for students
+			 r.convertEvalNoteItemID(i, nSTUDENT_EVAL, edittedData);
 
-			r.convertIRStudentActivityPlans(i, edittedData, 3);
+			r.convertIRStudentActivityPlans(i, edittedData, nACTIVITY);
 
 		}
 
