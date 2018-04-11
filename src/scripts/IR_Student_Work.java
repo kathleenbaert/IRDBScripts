@@ -114,7 +114,7 @@ public class IR_Student_Work {
 			row.getCell(6).setCellValue(mainSheet.getRow(i).getCell(EMPLOYEREVALDATE).getDateCellValue());
 
 			// "EVAL_NOTES"
-			row.getCell(7).setCellValue(mainSheet.getRow(i).getCell(NOTES).getStringCellValue());
+			row.getCell(7).setCellValue(mainSheet.getRow(i).getCell(EVALNOTES).getStringCellValue());
 		}
 	}
 
@@ -502,9 +502,6 @@ public class IR_Student_Work {
 		// EMPLOYER_EVAL_DATE
 		edittedData.getRow(edittedDataCurrRow).getCell(20)
 				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());
-		// EVAL_NOTES
-		edittedData.getRow(edittedDataCurrRow).getCell(21)
-				.setCellValue(mainSheet.getRow(srow).getCell(28).getStringCellValue());
 
 		// find the student eval
 		double mainReg = mainSheet.getRow(srow).getCell(NOTESREGID).getNumericCellValue();
@@ -530,14 +527,32 @@ public class IR_Student_Work {
 					}
 				}
 			}
-		}
+			//make sure all the notes are together
+			for(int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
+				
+				if(mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
+					if(evalPairs.getRow(i).getCell(7).getCellType() != Cell.CELL_TYPE_BLANK) {
+						String s = evalPairs.getRow(i).getCell(7).getStringCellValue();
+						String s1 = mainSheet.getRow(srow).getCell(NOTES).getStringCellValue();
+						edittedData.getRow(edittedDataCurrRow).getCell(nEVAL_NOTES).setCellValue(s +" "+ s1);							
 
-		// // EMPLOYER_EVAL
-		// edittedData.getRow(edittedDataCurrRow).getCell(18).setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
-		//
-		// // STUDENT_EVAL
-		// edittedData.getRow(edittedDataCurrRow).getCell(15)
-		// .setCellValue(mainSheet.getRow(srow).getCell(38).getNumericCellValue());
+						
+					}
+					
+				}
+				
+				
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+		}
 
 		edittedDataCurrRow++;
 

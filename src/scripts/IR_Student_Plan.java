@@ -56,7 +56,7 @@ public class IR_Student_Plan {
 	}
 
 	public static void setUpEdittedData() {
-		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION" };
+		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION", "NOTES"};
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
 			CellReference cr = new CellReference(0, i);
 			int r = cr.getRow();
