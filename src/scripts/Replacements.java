@@ -90,7 +90,7 @@ public class Replacements {
 			edittedData.getRow(row).getCell(2).setCellValue(1450);
 			break;
 		case "36.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1590);
+			edittedData.getRow(row).getCell(2).setCellValue(1490);
 			break;
 		case "37.0":
 			edittedData.getRow(row).getCell(2).setCellValue(1470);
@@ -182,7 +182,8 @@ public class Replacements {
 			edittedData.getRow(row).getCell(col).setCellValue("AThennes");
 			break;
 		case "B4":
-			edittedData.getRow(row).getCell(col).setCellType(Cell.CELL_TYPE_BLANK);
+			//edittedData.getRow(row).getCell(col).setCellType(Cell.CELL_TYPE_BLANK);
+			edittedData.getRow(row).getCell(col).setCellValue("BEFORE");
 			break;
 		case "JB":
 			edittedData.getRow(row).getCell(col).setCellValue("JBenjamin");
