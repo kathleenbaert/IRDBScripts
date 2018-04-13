@@ -137,13 +137,15 @@ public class IR_Student_Work {
 		while (i < mainSheet.getPhysicalNumberOfRows()) {
 			int last = endOfMUID(i);
 			for (int j = i; j <= last; j++) {
-				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j)) && noReg(j)) {
+				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j)) && 
+						!(is3991(j, REGCODE) || is3993(j, REGCODE) || is4991(j, REGCODE) || is4993(j, REGCODE)))
+						{
 					transferCoOpInfo(j);
 					edittedDataCurrRow++;
-
 				}
-				if (is3991(j, 14)) {
+				if (is3991(j, REGCODE)) {
 					transferCoOpInfo(j);
+					transferWorkReg(j);
 					int found = find3992(j, 14, last);
 					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3992 found");
@@ -153,8 +155,9 @@ public class IR_Student_Work {
 					transferGradingRegCredit(found, 20);
 					transferEvals(j);
 				}
-				if (is3993(j, 14)) {
+				if (is3993(j, REGCODE)) {
 					transferCoOpInfo(j);
+					transferWorkReg(j);
 					int found = find3994(j, 14, last);
 					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 3994 found");
@@ -164,8 +167,9 @@ public class IR_Student_Work {
 					transferGradingRegCredit(found, 21);
 					transferEvals(j);
 				}
-				if (is4991(j, 14)) {
+				if (is4991(j, REGCODE)) {
 					transferCoOpInfo(j);
+					transferWorkReg(j);
 					int found = find4992(j, 14, last);
 					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4992 found");
@@ -175,8 +179,9 @@ public class IR_Student_Work {
 					transferGradingRegCredit(found, 22);
 					transferEvals(j);
 				}
-				if (is4993(j, 14)) {
+				if (is4993(j, REGCODE)) {
 					transferCoOpInfo(j);
+					transferWorkReg(j);
 					int found = find4994(j, 14, last);
 					if (found == 0) {
 						System.out.println(mainSheet.getRow(j).getCell(1).toString() + " NO 4994 found");
@@ -311,13 +316,6 @@ public class IR_Student_Work {
 		return false;
 	}
 
-	public static boolean noReg(int j) {
-		if (mainSheet.getRow(j).getCell(14).toString().equals("")) {
-			return true;
-		}
-		return false;
-	}
-
 	public static boolean is3991(int row, int col) {
 		if (mainSheet.getRow(row).getCell(col).toString().equals("3991.0")) {
 			return true;
@@ -401,7 +399,6 @@ public class IR_Student_Work {
 			row++;
 		}
 		return 0;
-
 	}
 
 	public static boolean verifyMUID(int row1, int col1, int row2, int col2) {
@@ -454,12 +451,16 @@ public class IR_Student_Work {
 		edittedData.getRow(edittedDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
 		// 10 country
 		edittedData.getRow(edittedDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
-		// 11 work_reg
-		edittedData.getRow(edittedDataCurrRow).getCell(11)
-				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
 		// 22 reg ID, necessary for finding duplicate entries
 		edittedData.getRow(edittedDataCurrRow).getCell(22)
 				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
+	}
+	
+	public static void transferWorkReg(int srow) {
+		// 11 work_reg
+		edittedData.getRow(edittedDataCurrRow).getCell(nWORK_REG)
+				.setCellValue(mainSheet.getRow(srow).getCell(REGCODE).getNumericCellValue());		
+		
 	}
 
 	public static void transferWorkGrade(int srow, int scol) {
@@ -527,35 +528,18 @@ public class IR_Student_Work {
 					}
 				}
 			}
-			//make sure all the notes are together
-			for(int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
-				
-				if(mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
-					if(evalPairs.getRow(i).getCell(7).getCellType() != Cell.CELL_TYPE_BLANK) {
+			// make sure all the notes are together
+			for (int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
+
+				if (mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
+					if (evalPairs.getRow(i).getCell(7).getCellType() != Cell.CELL_TYPE_BLANK) {
 						String s = evalPairs.getRow(i).getCell(7).getStringCellValue();
 						String s1 = mainSheet.getRow(srow).getCell(NOTES).getStringCellValue();
-						edittedData.getRow(edittedDataCurrRow).getCell(nEVAL_NOTES).setCellValue(s +" "+ s1);							
-
-						
+						edittedData.getRow(edittedDataCurrRow).getCell(nEVAL_NOTES).setCellValue(s + " " + s1);
 					}
-					
 				}
-				
-				
-				
-				
 			}
-			
-			
-			
-			
-			
-			
-			
 		}
-
 		edittedDataCurrRow++;
-
 	}
-
 }
