@@ -55,169 +55,169 @@ public class Replacements {
 	}
 
 	public static void IRKeytoCheckmarqKey(int row, int col, XSSFSheet edittedData) {
-		String x = edittedData.getRow(row).getCell(2).toString();
+		String x = edittedData.getRow(row).getCell(col).toString();
 		switch (x) {
 		case "9.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1220);
+			edittedData.getRow(row).getCell(col).setCellValue(1220);
 			break;
 		case "10.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1200);
+			edittedData.getRow(row).getCell(col).setCellValue(1200);
 			break;
 		case "11.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1210);
+			edittedData.getRow(row).getCell(col).setCellValue(1210);
 			break;
 		case "12.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1250);
+			edittedData.getRow(row).getCell(col).setCellValue(1250);
 			break;
 		case "13.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1230);
+			edittedData.getRow(row).getCell(col).setCellValue(1230);
 			break;
 		case "14.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1240);
+			edittedData.getRow(row).getCell(col).setCellValue(1240);
 			break;
 		case "15.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1280);
+			edittedData.getRow(row).getCell(col).setCellValue(1280);
 			break;
 		case "16.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1260);
+			edittedData.getRow(row).getCell(col).setCellValue(1260);
 			break;
 		case "17.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1270);
+			edittedData.getRow(row).getCell(col).setCellValue(1270);
 			break;
 		case "18.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1310);
+			edittedData.getRow(row).getCell(col).setCellValue(1310);
 			break;
 		case "19.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1290);
+			edittedData.getRow(row).getCell(col).setCellValue(1290);
 			break;
 		case "20.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1300);
+			edittedData.getRow(row).getCell(col).setCellValue(1300);
 			break;
 		case "21.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1340);
+			edittedData.getRow(row).getCell(col).setCellValue(1340);
 			break;
 		case "22.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1320);
+			edittedData.getRow(row).getCell(col).setCellValue(1320);
 			break;
 		case "23.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1330);
+			edittedData.getRow(row).getCell(col).setCellValue(1330);
 			break;
 		case "24.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1370);
+			edittedData.getRow(row).getCell(col).setCellValue(1370);
 			break;
 		case "25.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1350);
+			edittedData.getRow(row).getCell(col).setCellValue(1350);
 			break;
 		case "26.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1360);
+			edittedData.getRow(row).getCell(col).setCellValue(1360);
 			break;
 		case "27.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1400);
+			edittedData.getRow(row).getCell(col).setCellValue(1400);
 			break;
 		case "28.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1380);
+			edittedData.getRow(row).getCell(col).setCellValue(1380);
 			break;
 		case "29.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1390);
+			edittedData.getRow(row).getCell(col).setCellValue(1390);
 			break;
 		case "30.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1430);
+			edittedData.getRow(row).getCell(col).setCellValue(1430);
 			break;
 		case "31.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1410);
+			edittedData.getRow(row).getCell(col).setCellValue(1410);
 			break;
 		case "32.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1420);
+			edittedData.getRow(row).getCell(col).setCellValue(1420);
 			break;
 		case "33.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1460);
+			edittedData.getRow(row).getCell(col).setCellValue(1460);
 			break;
 		case "34.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1440);
+			edittedData.getRow(row).getCell(col).setCellValue(1440);
 			break;
 		case "35.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1450);
+			edittedData.getRow(row).getCell(col).setCellValue(1450);
 			break;
 		case "36.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1490);
+			edittedData.getRow(row).getCell(col).setCellValue(1490);
 			break;
 		case "37.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1470);
+			edittedData.getRow(row).getCell(col).setCellValue(1470);
 			break;
 		case "38.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1480);
+			edittedData.getRow(row).getCell(col).setCellValue(1480);
 			break;
 		case "39.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1520);
+			edittedData.getRow(row).getCell(col).setCellValue(1520);
 			break;
 		case "40.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1500);
+			edittedData.getRow(row).getCell(col).setCellValue(1500);
 			break;
 		case "41.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1510);
+			edittedData.getRow(row).getCell(col).setCellValue(1510);
 			break;
 		case "42.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1550);
+			edittedData.getRow(row).getCell(col).setCellValue(1550);
 			break;
 		case "43.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1530);
+			edittedData.getRow(row).getCell(col).setCellValue(1530);
 			break;
 		case "44.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1540);
+			edittedData.getRow(row).getCell(col).setCellValue(1540);
 			break;
 		case "45.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1580);
+			edittedData.getRow(row).getCell(col).setCellValue(1580);
 			break;
 		case "46.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1560);
+			edittedData.getRow(row).getCell(col).setCellValue(1560);
 			break;
 		case "47.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1570);
+			edittedData.getRow(row).getCell(col).setCellValue(1570);
 			break;
 		case "48.0":
-			edittedData.getRow(row).getCell(2).setCellValue(8888);
+			edittedData.getRow(row).getCell(col).setCellValue(8888);
 			break;
 		case "49.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1590);
+			edittedData.getRow(row).getCell(col).setCellValue(1590);
 			break;
 		case "50.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1600);
+			edittedData.getRow(row).getCell(col).setCellValue(1600);
 			break;
 		case "51.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1610);
+			edittedData.getRow(row).getCell(col).setCellValue(1610);
 			break;
 		case "52.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1620);
+			edittedData.getRow(row).getCell(col).setCellValue(1620);
 			break;
 		case "53.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1160);
+			edittedData.getRow(row).getCell(col).setCellValue(1160);
 			break;
 		case "54.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1150);
+			edittedData.getRow(row).getCell(col).setCellValue(1150);
 			break;
 		case "55.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1190);
+			edittedData.getRow(row).getCell(col).setCellValue(1190);
 			break;
 		case "56.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1170);
+			edittedData.getRow(row).getCell(col).setCellValue(1170);
 			break;
 		case "57.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1180);
+			edittedData.getRow(row).getCell(col).setCellValue(1180);
 			break;
 		case "58.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1630);
+			edittedData.getRow(row).getCell(col).setCellValue(1630);
 			break;
 		case "59.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1640);
+			edittedData.getRow(row).getCell(col).setCellValue(1640);
 			break;
 		case "60.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1650);
+			edittedData.getRow(row).getCell(col).setCellValue(1650);
 			break;
 		case "61.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1660);
+			edittedData.getRow(row).getCell(col).setCellValue(1660);
 			break;
 		case "62.0":
-			edittedData.getRow(row).getCell(2).setCellValue(1670);
+			edittedData.getRow(row).getCell(col).setCellValue(1670);
 			break;
 
 		}
@@ -297,6 +297,7 @@ public class Replacements {
 		}
 
 	}
+	
 	public void removeNonWorkCompanies(int row, XSSFSheet edittedData, int col) {
 		String x = edittedData.getRow(row).getCell(3).toString();
 		switch (x) {
