@@ -8,9 +8,12 @@ public class random {
 		
 		Random r = new Random();
 		
-		for(int i = 0; i < 31; i++) {
+		for(int i = 0; i < 50; i++) {
+			
+			
+			
 
-			System.out.println(r.nextInt(13200));
+			System.out.println(r.nextInt(1523));
 		}
 		
 		

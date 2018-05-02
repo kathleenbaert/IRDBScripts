@@ -37,7 +37,7 @@ public class IR_Student_Work {
 	public static void main(String[] args) {
 
 		try {
-			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
+			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRSource.xlsx"));
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 			evalPairs = workbook.createSheet("evalPairs");
@@ -137,9 +137,8 @@ public class IR_Student_Work {
 		while (i < mainSheet.getPhysicalNumberOfRows()) {
 			int last = endOfMUID(i);
 			for (int j = i; j <= last; j++) {
-				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j)) && 
-						!(is3991(j, REGCODE) || is3993(j, REGCODE) || is4991(j, REGCODE) || is4993(j, REGCODE)))
-						{
+				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j))
+						&& !(is3991(j, REGCODE) || is3993(j, REGCODE) || is4991(j, REGCODE) || is4993(j, REGCODE))) {
 					transferCoOpInfo(j);
 					edittedDataCurrRow++;
 				}
@@ -232,58 +231,12 @@ public class IR_Student_Work {
 		int original = edittedData.getPhysicalNumberOfRows();
 		for (int i = 0; i < original - 1; i++) {
 			// 8 = registration ID
-			if (edittedData.getRow(i).getCell(0).toString().equals(edittedData.getRow(i + 1).getCell(0).toString())
-					&& edittedData.getRow(i).getCell(1).toString()
-							.equals(edittedData.getRow(i + 1).getCell(1).toString())
-					&& edittedData.getRow(i).getCell(2).toString()
-							.equals(edittedData.getRow(i + 1).getCell(2).toString())
-					&& edittedData.getRow(i).getCell(3).toString()
-							.equals(edittedData.getRow(i + 1).getCell(3).toString())
-					&& edittedData.getRow(i).getCell(4).toString()
-							.equals(edittedData.getRow(i + 1).getCell(4).toString())
-					&& edittedData.getRow(i).getCell(5).toString()
-							.equals(edittedData.getRow(i + 1).getCell(5).toString())
-					&& edittedData.getRow(i).getCell(6).toString()
-							.equals(edittedData.getRow(i + 1).getCell(6).toString())
-					&& edittedData.getRow(i).getCell(7).toString()
-							.equals(edittedData.getRow(i + 1).getCell(7).toString())
-					&& edittedData.getRow(i).getCell(8).toString()
-							.equals(edittedData.getRow(i + 1).getCell(8).toString())
-					&& edittedData.getRow(i).getCell(9).toString()
-							.equals(edittedData.getRow(i + 1).getCell(9).toString())
-					&& edittedData.getRow(i).getCell(10).toString()
-							.equals(edittedData.getRow(i + 1).getCell(10).toString())
-					&& edittedData.getRow(i).getCell(11).toString()
-							.equals(edittedData.getRow(i + 1).getCell(11).toString())
-					&& edittedData.getRow(i).getCell(12).toString()
-							.equals(edittedData.getRow(i + 1).getCell(12).toString())
-					&& edittedData.getRow(i).getCell(13).toString()
-							.equals(edittedData.getRow(i + 1).getCell(13).toString())
-					&& edittedData.getRow(i).getCell(14).toString()
-							.equals(edittedData.getRow(i + 1).getCell(14).toString())
-					&& edittedData.getRow(i).getCell(15).toString()
-							.equals(edittedData.getRow(i + 1).getCell(15).toString())
-					&& edittedData.getRow(i).getCell(16).toString()
-							.equals(edittedData.getRow(i + 1).getCell(16).toString())
-					&& edittedData.getRow(i).getCell(17).toString()
-							.equals(edittedData.getRow(i + 1).getCell(17).toString())
-					&& edittedData.getRow(i).getCell(18).toString()
-							.equals(edittedData.getRow(i + 1).getCell(18).toString())
-					&& edittedData.getRow(i).getCell(19).toString()
-							.equals(edittedData.getRow(i + 1).getCell(19).toString())
-					&& edittedData.getRow(i).getCell(20).toString()
-							.equals(edittedData.getRow(i + 1).getCell(20).toString())
-					&& edittedData.getRow(i).getCell(21).toString()
-							.equals(edittedData.getRow(i + 1).getCell(21).toString())
-					&& edittedData.getRow(i).getCell(22).toString()
-							.equals(edittedData.getRow(i + 1).getCell(22).toString())
-
-			) {
+			if (edittedData.getRow(i).getCell(0).toString().equals(edittedData.getRow(i + 1).getCell(0).toString())) {
 
 				// System.out.println(i + " duplicates!");
-				Row r = edittedData.getRow(i + 1);
+				Row r = edittedData.getRow(i);
 				edittedData.removeRow(r);
-				i++;
+//				i++;
 			}
 		}
 	}
@@ -455,12 +408,12 @@ public class IR_Student_Work {
 		edittedData.getRow(edittedDataCurrRow).getCell(22)
 				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
 	}
-	
+
 	public static void transferWorkReg(int srow) {
 		// 11 work_reg
 		edittedData.getRow(edittedDataCurrRow).getCell(nWORK_REG)
-				.setCellValue(mainSheet.getRow(srow).getCell(REGCODE).getNumericCellValue());		
-		
+				.setCellValue(mainSheet.getRow(srow).getCell(REGCODE).getNumericCellValue());
+
 	}
 
 	public static void transferWorkGrade(int srow, int scol) {

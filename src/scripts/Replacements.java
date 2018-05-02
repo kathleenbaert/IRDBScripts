@@ -5,6 +5,55 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class Replacements {
 
+	public static void convertTermsToNums(int row, int col, XSSFSheet edittedData) {
+		String x = edittedData.getRow(row).getCell(col).toString();
+		switch (x) {
+		case "3991.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3991");
+			break;
+		case "3992.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3992");
+			break;
+		case "3991.0, 3992.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3991, 3992");
+			break;
+		case "3993.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3993");
+			break;
+		case "3992.0, 3993.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3992, 3993");
+			break;
+		case "3994.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3994");
+			break;
+		case "3993.0, 3994.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3993, 3994");
+			break;
+		case "4991.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4991");
+			break;
+		case "3994.0, 4991.0":
+			edittedData.getRow(row).getCell(col).setCellValue("3994, 4991");
+			break;
+		case "4992.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4992");
+			break;
+		case "4991.0, 4992.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4991, 4992");
+			break;
+		case "4993.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4993");
+			break;
+		case "4992.0, 4993.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4992, 4993");
+			break;
+		case "4994.0":
+			edittedData.getRow(row).getCell(col).setCellValue("4994");
+			break;
+		}
+
+	}
+
 	public static void IRKeytoCheckmarqKey(int row, int col, XSSFSheet edittedData) {
 		String x = edittedData.getRow(row).getCell(2).toString();
 		switch (x) {
@@ -182,7 +231,7 @@ public class Replacements {
 			edittedData.getRow(row).getCell(col).setCellValue("AThennes");
 			break;
 		case "B4":
-			//edittedData.getRow(row).getCell(col).setCellType(Cell.CELL_TYPE_BLANK);
+			// edittedData.getRow(row).getCell(col).setCellType(Cell.CELL_TYPE_BLANK);
 			edittedData.getRow(row).getCell(col).setCellValue("BEFORE");
 			break;
 		case "JB":
@@ -243,7 +292,23 @@ public class Replacements {
 			edittedData.getRow(row).getCell(col).setCellValue("Unconfirmed");
 			break;
 		case "7.0":
-			edittedData.getRow(row).getCell(col).setCellValue("Part-Time-Work");
+			edittedData.getRow(row).getCell(col).setCellValue("Part-Time");
+			break;
+		}
+
+	}
+	public void removeNonWorkCompanies(int row, XSSFSheet edittedData, int col) {
+		String x = edittedData.getRow(row).getCell(3).toString();
+		switch (x) {
+
+		case "School":
+			edittedData.getRow(row).getCell(col).setCellValue("");
+			break;
+		case "Flex":
+			edittedData.getRow(row).getCell(col).setCellValue("");
+			break;
+		case "Unconfirmed":
+			edittedData.getRow(row).getCell(col).setCellValue("");
 			break;
 		}
 

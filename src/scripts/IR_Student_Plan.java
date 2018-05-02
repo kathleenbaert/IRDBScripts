@@ -22,7 +22,7 @@ public class IR_Student_Plan {
 
 		try {
 			// change
-			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRAbridged.xlsx"));
+			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRSource.xlsx"));
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
@@ -56,7 +56,7 @@ public class IR_Student_Plan {
 	}
 
 	public static void setUpEdittedData() {
-		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION", "NOTES"};
+		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION", "COMPANY" };
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
 			CellReference cr = new CellReference(0, i);
 			int r = cr.getRow();
@@ -85,6 +85,8 @@ public class IR_Student_Plan {
 			edittedData.getRow(i).getCell(3).setCellValue(mainSheet.getRow(i).getCell(5).toString());
 			// registration
 			edittedData.getRow(i).getCell(4).setCellValue(mainSheet.getRow(i).getCell(14).toString());
+			//company
+			edittedData.getRow(i).getCell(5).setCellValue(mainSheet.getRow(i).getCell(3).toString());
 
 		}
 	}
@@ -95,6 +97,10 @@ public class IR_Student_Plan {
 			r.IRKeytoCheckmarqKey(i, 3, edittedData); // works
 
 			r.convertIRStudentActivityPlans(i, edittedData, 3);
+			
+			r.convertTermsToNums(i, 4, edittedData);
+			
+			r.removeNonWorkCompanies(i, edittedData, 5);
 
 		}
 	}
@@ -111,13 +117,30 @@ public class IR_Student_Plan {
 							.equals(edittedData.getRow(i + 1).getCell(2).toString())
 
 					&& edittedData.getRow(i).getCell(3).toString()
-							.equals(edittedData.getRow(i + 1).getCell(3).toString())) {//ID, MUID, Term, activity all equal
-				// System.out.println(i + " duplicates!");
-				//transfer extra reg codes
+							.equals(edittedData.getRow(i + 1).getCell(3).toString())) {// ID, MUID, Term, activity all
+																						// equal
 				String s1 = edittedData.getRow(i).getCell(4).toString();
-				String s2 = edittedData.getRow(i+1).getCell(4).toString();
-				edittedData.getRow(i).getCell(4).setCellValue(s1 + ", " + s2);
-				System.out.println("ran " + i);
+				String s2 = edittedData.getRow(i + 1).getCell(4).toString();
+				if (s1.equals(s2) || s2.equals("")) {
+					edittedData.getRow(i).getCell(4).setCellValue(s1);
+				} else {
+					edittedData.getRow(i).getCell(4).setCellValue(s1 + ", " + s2);
+
+				}
+				s1 = edittedData.getRow(i).getCell(5).toString();
+				s2 = edittedData.getRow(i + 1).getCell(5).toString();
+				if(s1.equals(s2)) {
+					edittedData.getRow(i).getCell(5).setCellValue(s1);
+				}
+				else if(s1.equals("") && !s2.equals("")) {
+					edittedData.getRow(i).getCell(5).setCellValue(s1);
+				}else if(s2.equals("") && !s1.equals("")) {
+					edittedData.getRow(i).getCell(5).setCellValue(s2);
+				}else {
+					System.out.println("PROBLEM WITH ID  " + edittedData.getRow(i).getCell(1));
+					System.out.println(s1 + "   " + s2);
+					
+				}
 				Row r = edittedData.getRow(i + 1);
 				edittedData.removeRow(r);
 				i++;
