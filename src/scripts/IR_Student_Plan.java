@@ -22,7 +22,7 @@ public class IR_Student_Plan {
 
 		try {
 			// change
-			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRSource.xlsx"));
+			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IR-SOURCE3.xlsx"));
 			mainSheet = workbook.getSheetAt(0);
 			edittedData = workbook.createSheet("edittedData");
 			workbook.setMissingCellPolicy(MissingCellPolicy.CREATE_NULL_AS_BLANK);
@@ -56,7 +56,7 @@ public class IR_Student_Plan {
 	}
 
 	public static void setUpEdittedData() {
-		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION", "COMPANY" };
+		String[] firstRowEdittedData = new String[] { "ID", "MUID", "TERM", "ACTIVITY", "REGISTRATION" };
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
 			CellReference cr = new CellReference(0, i);
 			int r = cr.getRow();
@@ -85,8 +85,6 @@ public class IR_Student_Plan {
 			edittedData.getRow(i).getCell(3).setCellValue(mainSheet.getRow(i).getCell(5).toString());
 			// registration
 			edittedData.getRow(i).getCell(4).setCellValue(mainSheet.getRow(i).getCell(14).toString());
-			//company
-			edittedData.getRow(i).getCell(5).setCellValue(mainSheet.getRow(i).getCell(3).toString());
 
 		}
 	}
@@ -94,7 +92,7 @@ public class IR_Student_Plan {
 	public static void cleanUpLoop() {
 		for (int i = 0; i < edittedData.getPhysicalNumberOfRows(); i++) {
 			Replacements r = new Replacements();
-			r.IRKeytoCheckmarqKey(i, 3, edittedData); // works
+			r.IRKeytoCheckmarqKey(i, 2, edittedData); // works
 
 			r.convertIRStudentActivityPlans(i, edittedData, 3);
 			
@@ -142,7 +140,8 @@ public class IR_Student_Plan {
 					
 				}
 				Row r = edittedData.getRow(i + 1);
-				edittedData.removeRow(r);
+				//edittedData.removeRow(r);
+				r.getCell(0).setCellValue("BLANK");
 				i++;
 			}
 		}

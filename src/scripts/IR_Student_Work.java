@@ -37,7 +37,7 @@ public class IR_Student_Work {
 	public static void main(String[] args) {
 
 		try {
-			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IRSource.xlsx"));
+			XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream("IR-SOURCE3.xlsx"));
 			mainSheet = workbook.getSheetAt(0);
 			outputData = workbook.createSheet("OUTPUT");
 			evalPairs = workbook.createSheet("evalPairs");
@@ -123,7 +123,7 @@ public class IR_Student_Work {
 		firstRowEdittedData = new String[] { "ID_FK", "MUID_FK", "TERM_FK", "ACTIVITY", "CONTACTID_FK", "COMPANYID_FK",
 				"DATE_CREATED", "HOURLY_WAGE", "CITY", "STATE", "COUNTRY", "WORK_REG", "WORK_GRADE", "GRADING_REG",
 				"GRADING_GRADE", "STUDENT_EVAL", "STUDENT_EVAL_AUTH_FK", "STUDENT_EVAL_DATE", "EMPLOYER_EVAL",
-				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES", "REG_ID", "WORK_TERM_FK" };
+				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES", "REG_ID", "GRADING_TERM_FK" };
 		Row row = outputData.createRow(0);
 
 		for (int i = 0; i < firstRowEdittedData.length; i++) {
