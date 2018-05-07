@@ -14,10 +14,10 @@ import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 
 public class IR_Student_Work {
 
-	public static XSSFRow row1MainSheet, row1EdittedData;
+	public static XSSFRow row1MainSheet, row1outputData;
 	public static XSSFSheet mainSheet, outputData, evalPairs;
-	public static String[] firstRowMainSheet, firstRowEdittedData;
-	public static int edittedDataCurrRow;
+	public static String[] firstRowMainSheet, firstRowoutputData;
+	public static int outputDataCurrRow;
 	public final static int COOPID = 0, MUID = 1, TERM = 2, COMPANYID = 3, DIVISIONID = 4, ACTIVITY = 5, SALARY = 6,
 			SEMDATECREATED = 7, CITY = 8, STATE = 9, COUNTRY = 10, REGISTRATIONID = 11, SEMESTERID = 12, TOPICCODE = 13,
 			REGCODE = 14, GRADED = 15, GRADED3991 = 16, CREDIT3993 = 17, CREDIT4991 = 18, CREDIT4993 = 19,
@@ -48,7 +48,7 @@ public class IR_Student_Work {
 			System.out.println("...created eval pairs");
 			setUpOutputData();
 			System.out.println("...set up output data");
-			edittedDataCurrRow = 1;
+			outputDataCurrRow = 1;
 			transferLoop();
 			System.out.println("...transfer loop");
 			cleanUpLoop();
@@ -120,14 +120,14 @@ public class IR_Student_Work {
 
 	public static void setUpOutputData() {
 
-		firstRowEdittedData = new String[] { "ID_FK", "MUID_FK", "TERM_FK", "ACTIVITY", "CONTACTID_FK", "COMPANYID_FK",
+		firstRowoutputData = new String[] { "ID_FK", "MUID_FK", "TERM_FK", "ACTIVITY", "CONTACTID_FK", "COMPANYID_FK",
 				"DATE_CREATED", "HOURLY_WAGE", "CITY", "STATE", "COUNTRY", "WORK_REG", "WORK_GRADE", "GRADING_REG",
 				"GRADING_GRADE", "STUDENT_EVAL", "STUDENT_EVAL_AUTH_FK", "STUDENT_EVAL_DATE", "EMPLOYER_EVAL",
 				"EMPLOYER_EVAL_AUTH_FK", "EMPLOYER_EVAL_DATE", "EVAL_NOTES", "REG_ID", "GRADING_TERM_FK" };
 		Row row = outputData.createRow(0);
 
-		for (int i = 0; i < firstRowEdittedData.length; i++) {
-			row.getCell(i).setCellValue(firstRowEdittedData[i]);
+		for (int i = 0; i < firstRowoutputData.length; i++) {
+			row.getCell(i).setCellValue(firstRowoutputData[i]);
 		}
 
 	}
@@ -140,7 +140,7 @@ public class IR_Student_Work {
 				if ((isCoOp(j) || isInternship(j) || isResearch(j) || isPartTime(j))
 						&& !(is3991(j, REGCODE) || is3993(j, REGCODE) || is4991(j, REGCODE) || is4993(j, REGCODE))) {
 					transferCoOpInfo(j);
-					edittedDataCurrRow++;
+					outputDataCurrRow++;
 				}
 				if (is3991(j, REGCODE)) {
 					transferCoOpInfo(j);
@@ -232,13 +232,29 @@ public class IR_Student_Work {
 		int original = outputData.getPhysicalNumberOfRows();
 		for (int i = 0; i < original - 1; i++) {
 			// 8 = registration ID
-			if (outputData.getRow(i).getCell(0).toString().equals(outputData.getRow(i + 1).getCell(0).toString())) {
+				if (outputData.getRow(i).getCell(0).toString().equals(outputData.getRow(i + 1).getCell(0).toString())
+								&& outputData.getRow(i).getCell(1).toString()
+										.equals(outputData.getRow(i + 1).getCell(1).toString())
+								&& outputData.getRow(i).getCell(2).toString()
+										.equals(outputData.getRow(i + 1).getCell(2).toString())
+								&& outputData.getRow(i).getCell(3).toString()
+										.equals(outputData.getRow(i + 1).getCell(3).toString())
+								&& outputData.getRow(i).getCell(4).toString()
+										.equals(outputData.getRow(i + 1).getCell(4).toString())
+								&& outputData.getRow(i).getCell(5).toString()
+										.equals(outputData.getRow(i + 1).getCell(5).toString())
+								&& outputData.getRow(i).getCell(6).toString()
+										.equals(outputData.getRow(i + 1).getCell(6).toString())
+								&& outputData.getRow(i).getCell(7).toString()
+										.equals(outputData.getRow(i + 1).getCell(7).toString()))			
+			{
 
 				// System.out.println(i + " duplicates!");
-				Row r = outputData.getRow(i);
+				Row r = outputData.getRow(i+1);
+				//outputData.removeRow(r);
 				r.getCell(0).setCellValue("BLANK");
-				// edittedData.removeRow(r);
-				// i++;
+
+				//i++;
 			}
 		}
 	}
@@ -368,100 +384,100 @@ public class IR_Student_Work {
 	}
 
 	public static void transferCoOpInfo(int srow) {
-		Row row = outputData.getRow(edittedDataCurrRow);
+		Row row = outputData.getRow(outputDataCurrRow);
 		if (row == null) {
-			row = outputData.createRow(edittedDataCurrRow);
+			row = outputData.createRow(outputDataCurrRow);
 		}
 		// 0 id
-		outputData.getRow(edittedDataCurrRow).getCell(0)
+		outputData.getRow(outputDataCurrRow).getCell(0)
 				.setCellValue(mainSheet.getRow(srow).getCell(0).getNumericCellValue());
 		// 1 MUID
 		if (mainSheet.getRow(srow).getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-			outputData.getRow(edittedDataCurrRow).getCell(1)
+			outputData.getRow(outputDataCurrRow).getCell(1)
 					.setCellValue(mainSheet.getRow(srow).getCell(1).getNumericCellValue());
 		}
 		if (mainSheet.getRow(srow).getCell(1).getCellType() == Cell.CELL_TYPE_STRING) {
-			outputData.getRow(edittedDataCurrRow).getCell(1)
+			outputData.getRow(outputDataCurrRow).getCell(1)
 					.setCellValue(mainSheet.getRow(srow).getCell(1).getStringCellValue());
 		}
 		// 2 term
-		outputData.getRow(edittedDataCurrRow).getCell(2)
+		outputData.getRow(outputDataCurrRow).getCell(2)
 				.setCellValue(mainSheet.getRow(srow).getCell(2).getNumericCellValue());
 		// 3 activity
-		outputData.getRow(edittedDataCurrRow).getCell(3)
+		outputData.getRow(outputDataCurrRow).getCell(3)
 				.setCellValue(mainSheet.getRow(srow).getCell(5).getNumericCellValue());
 		// 4 contact ID
-		outputData.getRow(edittedDataCurrRow).getCell(4).setCellValue(" ");
+		outputData.getRow(outputDataCurrRow).getCell(4).setCellValue(" ");
 		// 5 company id
-		outputData.getRow(edittedDataCurrRow).getCell(5)
+		outputData.getRow(outputDataCurrRow).getCell(5)
 				.setCellValue(mainSheet.getRow(srow).getCell(3).getNumericCellValue());
 		// 6 date created
-		outputData.getRow(edittedDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(7).toString());
+		outputData.getRow(outputDataCurrRow).getCell(6).setCellValue(mainSheet.getRow(srow).getCell(7).toString());
 		// 7 hourly wage
-		outputData.getRow(edittedDataCurrRow).getCell(7)
+		outputData.getRow(outputDataCurrRow).getCell(7)
 				.setCellValue(mainSheet.getRow(srow).getCell(6).getNumericCellValue());
 		// 8 city
-		outputData.getRow(edittedDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
+		outputData.getRow(outputDataCurrRow).getCell(8).setCellValue(mainSheet.getRow(srow).getCell(8).toString());
 		// 9 state
-		outputData.getRow(edittedDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
+		outputData.getRow(outputDataCurrRow).getCell(9).setCellValue(mainSheet.getRow(srow).getCell(9).toString());
 		// 10 country
-		outputData.getRow(edittedDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
+		outputData.getRow(outputDataCurrRow).getCell(10).setCellValue(mainSheet.getRow(srow).getCell(10).toString());
 		// 22 reg ID, necessary for finding duplicate entries
-		outputData.getRow(edittedDataCurrRow).getCell(22)
+		outputData.getRow(outputDataCurrRow).getCell(22)
 				.setCellValue(mainSheet.getRow(srow).getCell(11).getNumericCellValue());
 	}
 
 	public static void transferWorkReg(int srow) {
 		// 11 work_reg
-		outputData.getRow(edittedDataCurrRow).getCell(nWORK_REG)
+		outputData.getRow(outputDataCurrRow).getCell(nWORK_REG)
 				.setCellValue(mainSheet.getRow(srow).getCell(REGCODE).getNumericCellValue());
 
-		outputData.getRow(edittedDataCurrRow).getCell(nGRADING_TERM_FK)
+		outputData.getRow(outputDataCurrRow).getCell(nGRADING_TERM_FK)
 				.setCellValue(mainSheet.getRow(srow).getCell(TERM).getNumericCellValue());
 	}
 
 	public static void transferWorkGrade(int srow, int scol) {
 		// srow is current row in main sheet, scol is dependent on what credit you need
 		// to find
-		Row row = outputData.getRow(edittedDataCurrRow);
+		Row row = outputData.getRow(outputDataCurrRow);
 		if (row == null) {
-			row = outputData.createRow(edittedDataCurrRow);
+			row = outputData.createRow(outputDataCurrRow);
 		}
 		// WORK_GRADE
-		outputData.getRow(edittedDataCurrRow).getCell(12)
+		outputData.getRow(outputDataCurrRow).getCell(12)
 				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
 	}
 
 	public static void transferGradingRegCredit(int srow, int scol) {
 		// srow is current row in main sheet, scol is dependent on what credit you need
-		Row row = outputData.getRow(edittedDataCurrRow);
+		Row row = outputData.getRow(outputDataCurrRow);
 		if (row == null) {
-			row = outputData.createRow(edittedDataCurrRow);
+			row = outputData.createRow(outputDataCurrRow);
 		}
 		// GRADING_REG
-		outputData.getRow(edittedDataCurrRow).getCell(13)
+		outputData.getRow(outputDataCurrRow).getCell(13)
 				.setCellValue(mainSheet.getRow(srow).getCell(14).getNumericCellValue());
 		// GRADING_GRADE
-		outputData.getRow(edittedDataCurrRow).getCell(14)
+		outputData.getRow(outputDataCurrRow).getCell(14)
 				.setCellValue(mainSheet.getRow(srow).getCell(scol).getStringCellValue());
 		// nGRADING_TERM_FK
-		outputData.getRow(edittedDataCurrRow).getCell(nGRADING_TERM_FK)
+		outputData.getRow(outputDataCurrRow).getCell(nGRADING_TERM_FK)
 				.setCellValue(mainSheet.getRow(srow).getCell(TERM).getNumericCellValue());
 
 	}
 
 	public static void transferEvals(int srow) {
 		// STUDENT_AUTH
-		outputData.getRow(edittedDataCurrRow).getCell(16)
+		outputData.getRow(outputDataCurrRow).getCell(16)
 				.setCellValue(mainSheet.getRow(srow).getCell(25).getStringCellValue());
 		// STUDENT_EVAL_DATE
-		outputData.getRow(edittedDataCurrRow).getCell(17)
+		outputData.getRow(outputDataCurrRow).getCell(17)
 				.setCellValue(mainSheet.getRow(srow).getCell(24).getDateCellValue());
 		// EMPLOYER_AUTH
-		outputData.getRow(edittedDataCurrRow).getCell(19)
+		outputData.getRow(outputDataCurrRow).getCell(19)
 				.setCellValue(mainSheet.getRow(srow).getCell(27).getStringCellValue());
 		// EMPLOYER_EVAL_DATE
-		outputData.getRow(edittedDataCurrRow).getCell(20)
+		outputData.getRow(outputDataCurrRow).getCell(20)
 				.setCellValue(mainSheet.getRow(srow).getCell(26).getDateCellValue());
 
 		// find the student eval
@@ -474,7 +490,7 @@ public class IR_Student_Work {
 
 				if (mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
 					if (evalPairs.getRow(i).getCell(1).getCellType() != Cell.CELL_TYPE_BLANK) {
-						outputData.getRow(edittedDataCurrRow).getCell(nSTUDENT_EVAL)
+						outputData.getRow(outputDataCurrRow).getCell(nSTUDENT_EVAL)
 								.setCellValue(evalPairs.getRow(i).getCell(1).getNumericCellValue());
 					}
 				}
@@ -483,7 +499,7 @@ public class IR_Student_Work {
 			for (int i = 1; i < evalPairs.getPhysicalNumberOfRows(); i++) {
 				if (mainReg == evalPairs.getRow(i).getCell(0).getNumericCellValue()) {
 					if (evalPairs.getRow(i).getCell(4).getCellType() != Cell.CELL_TYPE_BLANK) {
-						outputData.getRow(edittedDataCurrRow).getCell(nEMPLOYER_EVAL)
+						outputData.getRow(outputDataCurrRow).getCell(nEMPLOYER_EVAL)
 								.setCellValue(evalPairs.getRow(i).getCell(4).getNumericCellValue());
 					}
 				}
@@ -495,11 +511,11 @@ public class IR_Student_Work {
 					if (evalPairs.getRow(i).getCell(7).getCellType() != Cell.CELL_TYPE_BLANK) {
 						String s = evalPairs.getRow(i).getCell(7).getStringCellValue();
 						String s1 = mainSheet.getRow(srow).getCell(NOTES).getStringCellValue();
-						outputData.getRow(edittedDataCurrRow).getCell(nEVAL_NOTES).setCellValue(s + " " + s1);
+						outputData.getRow(outputDataCurrRow).getCell(nEVAL_NOTES).setCellValue(s + " " + s1);
 					}
 				}
 			}
 		}
-		edittedDataCurrRow++;
+		outputDataCurrRow++;
 	}
 }
